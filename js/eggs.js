@@ -206,23 +206,45 @@ function initReputationMorph() {
         svg.classList.remove('hidden');
         svg.classList.add('visible');
         
-        // Draw snake
+        // Draw realistic snake
         creature.innerHTML = `
-            <path d="M50,100 Q60,80 70,70 T90,40 Q95,30 100,20" 
-                  stroke="currentColor" fill="none" stroke-width="2"/>
-            <circle cx="100" cy="18" r="3" fill="currentColor"/>
+            <!-- Snake body -->
+            <path d="M20,100 Q30,90 40,85 Q50,82 60,85 Q70,88 80,95 Q90,100 100,110 Q105,115 110,125 Q112,130 115,140" 
+                  stroke="currentColor" fill="none" stroke-width="3" stroke-linecap="round"/>
+            <!-- Snake head -->
+            <ellipse cx="116" cy="142" rx="5" ry="7" fill="currentColor"/>
+            <!-- Snake eyes -->
+            <circle cx="114" cy="140" r="1" fill="#000"/>
+            <circle cx="118" cy="140" r="1" fill="#000"/>
+            <!-- Forked tongue -->
+            <path d="M116,148 L116,152 M114,152 L118,152" stroke="#ff3333" stroke-width="0.5"/>
+            <!-- Pattern marks -->
+            <circle cx="40" cy="85" r="2" fill="currentColor" opacity="0.3"/>
+            <circle cx="60" cy="85" r="2" fill="currentColor" opacity="0.3"/>
+            <circle cx="80" cy="95" r="2" fill="currentColor" opacity="0.3"/>
+            <circle cx="100" cy="110" r="2" fill="currentColor" opacity="0.3"/>
         `;
         
         hoverInterval = setInterval(() => {
             hoverTime += 100;
             if (hoverTime >= 2000 && !morphCollected) {
-                // Morph to flower
+                // Morph to beautiful flower
                 creature.innerHTML = `
-                    <circle cx="100" cy="100" r="15" fill="none" stroke="currentColor" stroke-width="1.5"/>
-                    <circle cx="100" cy="80" r="8" fill="none" stroke="currentColor" stroke-width="1"/>
-                    <circle cx="120" cy="100" r="8" fill="none" stroke="currentColor" stroke-width="1"/>
-                    <circle cx="100" cy="120" r="8" fill="none" stroke="currentColor" stroke-width="1"/>
-                    <circle cx="80" cy="100" r="8" fill="none" stroke="currentColor" stroke-width="1"/>
+                    <!-- Flower center -->
+                    <circle cx="100" cy="100" r="12" fill="currentColor" opacity="0.3"/>
+                    <circle cx="100" cy="100" r="6" fill="currentColor"/>
+                    <!-- Petals -->
+                    <ellipse cx="100" cy="75" rx="8" ry="15" fill="none" stroke="currentColor" stroke-width="1.5"/>
+                    <ellipse cx="125" cy="100" rx="15" ry="8" fill="none" stroke="currentColor" stroke-width="1.5"/>
+                    <ellipse cx="100" cy="125" rx="8" ry="15" fill="none" stroke="currentColor" stroke-width="1.5"/>
+                    <ellipse cx="75" cy="100" rx="15" ry="8" fill="none" stroke="currentColor" stroke-width="1.5"/>
+                    <!-- Diagonal petals -->
+                    <ellipse cx="115" cy="85" rx="10" ry="12" fill="none" stroke="currentColor" stroke-width="1" opacity="0.7" transform="rotate(45 115 85)"/>
+                    <ellipse cx="115" cy="115" rx="10" ry="12" fill="none" stroke="currentColor" stroke-width="1" opacity="0.7" transform="rotate(-45 115 115)"/>
+                    <ellipse cx="85" cy="115" rx="10" ry="12" fill="none" stroke="currentColor" stroke-width="1" opacity="0.7" transform="rotate(45 85 115)"/>
+                    <ellipse cx="85" cy="85" rx="10" ry="12" fill="none" stroke="currentColor" stroke-width="1" opacity="0.7" transform="rotate(-45 85 85)"/>
+                    <!-- Stem hint -->
+                    <line x1="100" y1="125" x2="100" y2="145" stroke="currentColor" stroke-width="2" opacity="0.4"/>
                 `;
                 svg.style.color = 'rgba(255, 182, 193, 0.7)';
                 
@@ -253,11 +275,21 @@ function initReputationMorph() {
         svg.classList.remove('hidden');
         svg.classList.add('visible');
         creature.innerHTML = `
-            <circle cx="100" cy="100" r="15" fill="none" stroke="currentColor" stroke-width="1.5"/>
-            <circle cx="100" cy="80" r="8" fill="none" stroke="currentColor" stroke-width="1"/>
-            <circle cx="120" cy="100" r="8" fill="none" stroke="currentColor" stroke-width="1"/>
-            <circle cx="100" cy="120" r="8" fill="none" stroke="currentColor" stroke-width="1"/>
-            <circle cx="80" cy="100" r="8" fill="none" stroke="currentColor" stroke-width="1"/>
+            <!-- Flower center -->
+            <circle cx="100" cy="100" r="12" fill="currentColor" opacity="0.3"/>
+            <circle cx="100" cy="100" r="6" fill="currentColor"/>
+            <!-- Petals -->
+            <ellipse cx="100" cy="75" rx="8" ry="15" fill="none" stroke="currentColor" stroke-width="1.5"/>
+            <ellipse cx="125" cy="100" rx="15" ry="8" fill="none" stroke="currentColor" stroke-width="1.5"/>
+            <ellipse cx="100" cy="125" rx="8" ry="15" fill="none" stroke="currentColor" stroke-width="1.5"/>
+            <ellipse cx="75" cy="100" rx="15" ry="8" fill="none" stroke="currentColor" stroke-width="1.5"/>
+            <!-- Diagonal petals -->
+            <ellipse cx="115" cy="85" rx="10" ry="12" fill="none" stroke="currentColor" stroke-width="1" opacity="0.7" transform="rotate(45 115 85)"/>
+            <ellipse cx="115" cy="115" rx="10" ry="12" fill="none" stroke="currentColor" stroke-width="1" opacity="0.7" transform="rotate(-45 115 115)"/>
+            <ellipse cx="85" cy="115" rx="10" ry="12" fill="none" stroke="currentColor" stroke-width="1" opacity="0.7" transform="rotate(45 85 115)"/>
+            <ellipse cx="85" cy="85" rx="10" ry="12" fill="none" stroke="currentColor" stroke-width="1" opacity="0.7" transform="rotate(-45 85 85)"/>
+            <!-- Stem hint -->
+            <line x1="100" y1="125" x2="100" y2="145" stroke="currentColor" stroke-width="2" opacity="0.4"/>
         `;
         svg.style.color = 'rgba(255, 182, 193, 0.7)';
     }
@@ -329,24 +361,39 @@ function initMidnightsSky() {
     let clickCount = 0;
     display.textContent = '11:59';
     
-    timeKeeper.addEventListener('click', () => {
+    // Make entire time-keeper clickable
+    timeKeeper.style.cursor = 'pointer';
+    
+    const handleTimeClick = (e) => {
+        e.stopPropagation();
         clickCount++;
         
-        if (clickCount === 1) display.textContent = '12:00';
-        else if (clickCount === 2) display.textContent = '12:19';
-        else if (clickCount === 3) {
+        if (clickCount === 1) {
+            display.textContent = '12:00';
+        } else if (clickCount === 2) {
+            display.textContent = '12:19';
+        } else if (clickCount === 3) {
             display.textContent = '1:19';
             if (collectEgg('time_pattern')) {
                 display.style.color = 'rgba(201, 162, 39, 1)';
                 display.style.borderColor = 'rgba(201, 162, 39, 0.6)';
+                display.style.background = 'rgba(201, 162, 39, 0.1)';
             }
+        } else {
+            // Reset after 3 clicks
+            clickCount = 0;
+            display.textContent = '11:59';
         }
-    });
+    };
+    
+    timeKeeper.addEventListener('click', handleTimeClick);
+    display.addEventListener('click', handleTimeClick);
     
     if (AppState.eggsFound.has('time_pattern')) {
         display.textContent = '1:19';
         display.style.color = 'rgba(201, 162, 39, 1)';
         display.style.borderColor = 'rgba(201, 162, 39, 0.6)';
+        display.style.background = 'rgba(201, 162, 39, 0.1)';
     }
 }
 
@@ -467,6 +514,9 @@ function unlockVault() {
     AppState.vaultUnlocked = true;
     saveState();
     
+    // Stop all instrumental music when vault opens
+    stopAllMusic();
+    
     const locked = document.getElementById('collectionLocked');
     const unlocked = document.getElementById('collectionUnlocked');
     
@@ -486,5 +536,13 @@ function unlockVault() {
                 }
             });
         }, 2000);
+    }
+}
+
+// Helper to stop all music
+function stopAllMusic() {
+    const musicControl = document.getElementById('musicControl');
+    if (musicControl && musicControl.classList.contains('playing')) {
+        musicControl.click(); // Toggle off
     }
 }
