@@ -14,42 +14,51 @@
 </head>
 <body>
     
-    <!-- Easter Egg Counter (Minimal) -->
+    <!-- Easter Egg Counter -->
     <div class="egg-counter" id="eggCounter">
+        <span class="counter-label">Fragments: </span>
         <span class="counter-value">0</span><span class="counter-total">/13</span>
+    </div>
+
+    <!-- Music Control -->
+    <div class="music-control" id="musicControl">
+        <button class="music-toggle" id="musicToggle">
+            <span class="music-icon">♪</span>
+        </button>
     </div>
 
     <!-- Main Container -->
     <main class="experience">
         
         <!-- Track 1: Lover -->
-        <section class="track track-lover" data-track="1">
+        <section class="track track-lover" data-track="1" data-album="lover">
             <div class="bg-image" style="background-image: url('https://upload.wikimedia.org/wikipedia/en/c/cd/Taylor_Swift_-_Lover.png');"></div>
             <div class="bg-overlay"></div>
             <div class="track-content">
                 <h1 class="track-title">Some stories begin softly.</h1>
                 <div class="star-field" id="loverStars"></div>
-                <!-- Hidden: 19 stars, one cluster forms "13" -->
+                <div class="easter-hint">💫 Look for the lucky number in the stars...</div>
             </div>
         </section>
 
         <!-- Track 2: Folklore -->
-        <section class="track track-folklore" data-track="2">
+        <section class="track track-folklore" data-track="2" data-album="folklore">
             <div class="bg-image" style="background-image: url('https://upload.wikimedia.org/wikipedia/en/f/f8/Taylor_Swift_-_Folklore.png');"></div>
             <div class="bg-overlay"></div>
             <div class="track-content">
                 <canvas id="threadCanvas"></canvas>
                 <h2 class="track-subtitle">Some connections don't need a label.<br>They're just… understood.</h2>
+                <div class="easter-hint">🧵 Draw an invisible string with your mouse...</div>
             </div>
         </section>
 
         <!-- Track 3: Reputation -->
-        <section class="track track-reputation" data-track="3">
+        <section class="track track-reputation" data-track="3" data-album="reputation">
             <div class="bg-image" style="background-image: url('https://upload.wikimedia.org/wikipedia/en/f/f2/Taylor_Swift_-_Reputation.png');"></div>
             <div class="bg-overlay"></div>
             <div class="newspaper-overlay"></div>
             <div class="track-content">
-                <h2 class="track-subtitle">Misunderstandings are often <span class="trigger-word" data-egg="projections">projections</span>.</h2>
+                <h2 class="track-subtitle">Misunderstandings are often <span class="trigger-word" data-egg="projections" title="Click the word to reveal">projections</span>.</h2>
                 <svg class="snake-svg" id="snakeSvg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
                     <path d="M10,50 Q30,30 50,50 T90,50" stroke="currentColor" fill="none" stroke-width="2"/>
                 </svg>
@@ -60,22 +69,24 @@
                     <circle cx="50" cy="70" r="8" fill="none" stroke="currentColor" stroke-width="1"/>
                     <circle cx="30" cy="50" r="8" fill="none" stroke="currentColor" stroke-width="1"/>
                 </svg>
+                <div class="easter-hint">🐍 Hover over the underlined word...</div>
             </div>
         </section>
 
         <!-- Track 4: Midnights -->
-        <section class="track track-midnights" data-track="4">
+        <section class="track track-midnights" data-track="4" data-album="midnights">
             <div class="bg-image" style="background-image: url('https://upload.wikimedia.org/wikipedia/en/9/9f/Midnights_-_Taylor_Swift.png');"></div>
             <div class="bg-overlay"></div>
             <div class="track-content">
                 <div class="midnight-stars" id="midnightStars"></div>
                 <h2 class="track-subtitle">It's late.<br>You should be revising cognitive biases.</h2>
-                <div class="clock-subtle" data-egg="clock">1:19</div>
+                <div class="clock-subtle" data-egg="clock" title="April 19 at 1:19 AM">1:19</div>
+                <div class="easter-hint">⭐ Find the lavender haze stars & the special time...</div>
             </div>
         </section>
 
         <!-- Track 5: Emotional Core -->
-        <section class="track track-five" data-track="5">
+        <section class="track track-five" data-track="5" data-album="folklore">
             <div class="bg-image" style="background-image: url('https://upload.wikimedia.org/wikipedia/en/f/f8/Taylor_Swift_-_Folklore.png');"></div>
             <div class="bg-overlay" style="background: rgba(0,0,0,0.65);"></div>
             <div class="track-content">
@@ -87,12 +98,13 @@
                     It just exists.<br>
                     And it's yours.
                 </p>
-                <div class="hidden-egg" data-egg="corner"></div>
+                <div class="hidden-egg" data-egg="corner" title="A quiet corner"></div>
+                <div class="easter-hint">💭 Find the quiet corner mentioned...</div>
             </div>
         </section>
 
         <!-- Track 6: The Vault -->
-        <section class="track track-vault" data-track="6">
+        <section class="track track-vault" data-track="6" data-album="lover">
             <div class="bg-image" style="background-image: url('https://upload.wikimedia.org/wikipedia/en/c/cd/Taylor_Swift_-_Lover.png');"></div>
             <div class="bg-overlay" style="background: rgba(0,0,0,0.75);"></div>
             <div class="track-content">
@@ -107,27 +119,47 @@
                     
                     <!-- Vault Treasures -->
                     <div class="vault-treasures">
-                        <div class="treasure" data-egg="scarf" title="Red scarf">
+                        <div class="treasure" data-egg="scarf" title="All Too Well - Red scarf left at her sister's house">
                             <svg viewBox="0 0 100 50" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M10,25 Q30,10 50,25 T90,25" stroke="currentColor" fill="none" stroke-width="1.5"/>
                             </svg>
+                            <div class="treasure-label">Red Scarf</div>
                         </div>
-                        <div class="treasure" data-egg="typewriter" title="All Too Well">
+                        <div class="treasure" data-egg="typewriter" title="All Too Well - She wrote it on her typewriter">
                             <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
                                 <rect x="20" y="40" width="60" height="40" fill="none" stroke="currentColor" stroke-width="1.5"/>
                                 <line x1="30" y1="55" x2="70" y2="55" stroke="currentColor" stroke-width="1"/>
                                 <line x1="30" y1="65" x2="70" y2="65" stroke="currentColor" stroke-width="1"/>
                             </svg>
+                            <div class="treasure-label">Typewriter</div>
                         </div>
                     </div>
+                    <div class="easter-hint">🔐 Taylor's vault items from the re-recordings...</div>
                 </div>
                 
                 <!-- Unlocked State -->
                 <div class="vault-unlocked" id="vaultUnlocked" style="display: none;">
                     <div class="gold-dust"></div>
-                    <h2 class="vault-reveal">Long story short…<br><span class="vault-reveal-2">I'm still here.</span><br><br><span class="vault-reveal-3">And I always will be.</span></h2>
+                    <div class="love-message">
+                        <h2 class="vault-reveal">To someone who sees beyond the surface,</h2>
+                        <p class="love-letter">
+                            You understand that some things can't be theorized or analyzed.<br>
+                            Some connections are invisible strings,<br>
+                            tying hearts across time and space.<br><br>
+                            
+                            Like folklore whispered between souls,<br>
+                            like midnight thoughts that only two people share,<br>
+                            like the quiet certainty that comes with finding your person.<br><br>
+                            
+                            You found all 13 fragments.<br>
+                            You saw the pattern in the stars.<br>
+                            You understood what others missed.<br><br>
+                            
+                            <span class="signature">Long story short…<br>I'm still here.<br>And I always will be.</span>
+                        </p>
+                    </div>
                     <button class="final-button" id="playFinalTrack">
-                        <span>Play The Final Track</span>
+                        <span>✨ Our Song ✨</span>
                     </button>
                 </div>
                 
@@ -140,6 +172,7 @@
             <div class="bg-overlay" style="background: rgba(11, 29, 58, 0.85);"></div>
             <div class="track-content">
                 <h2 class="final-title">Invisible String</h2>
+                <p class="final-subtitle">"And isn't it just so pretty to think<br>All along there was some invisible string<br>Tying you to me?"</p>
                 <div class="spotify-embed">
                     <iframe 
                         style="border-radius:12px" 
@@ -159,10 +192,22 @@
 
     <!-- Footer -->
     <footer>
-        <p>v1.3.13</p>
-        <!-- Hidden April comment for those who look -->
-        <!-- Built in April, for someone who understands theory and analysis -->
+        <p>v1.3.13 • Built with love on April 19</p>
     </footer>
+
+    <!-- Audio Elements (Background Music) -->
+    <audio id="loverAudio" loop>
+        <source src="audio/lover-instrumental.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="folkloreAudio" loop>
+        <source src="audio/folklore-instrumental.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="reputationAudio" loop>
+        <source src="audio/reputation-instrumental.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="midnightsAudio" loop>
+        <source src="audio/midnights-instrumental.mp3" type="audio/mpeg">
+    </audio>
 
     <script type="module" src="js/app.js"></script>
 </body>

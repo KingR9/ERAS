@@ -1,6 +1,7 @@
 /* ============================================
    PREMIUM CINEMATIC EXPERIENCE
    Mobile-First, Mature Design
+   Enhanced Easter Egg Visibility
    ============================================ */
 
 /* Reset & Base */
@@ -50,14 +51,14 @@ body {
     transform: translateY(0);
 }
 
-/* Background Image System */
+/* Background Image System - REDUCED BLUR */
 .bg-image {
     position: absolute;
     inset: 0;
     background-size: cover;
     background-position: center;
-    filter: blur(28px) brightness(0.55);
-    transform: scale(1.1);
+    filter: blur(12px) brightness(0.6);  /* Reduced from 28px */
+    transform: scale(1.05);
     z-index: 0;
     transition: transform 0.3s ease;
 }
@@ -65,7 +66,7 @@ body {
 .bg-overlay {
     position: absolute;
     inset: 0;
-    background: rgba(0, 0, 0, 0.35);
+    background: rgba(0, 0, 0, 0.25);  /* Lighter overlay */
     z-index: 1;
 }
 
@@ -90,6 +91,7 @@ body {
     letter-spacing: 3px;
     color: #f5f5f5;
     margin: 0;
+    text-shadow: 0 2px 20px rgba(0,0,0,0.5);
 }
 
 .track-subtitle {
@@ -99,6 +101,7 @@ body {
     line-height: 1.6;
     color: #f5f5f5;
     margin: 0;
+    text-shadow: 0 2px 15px rgba(0,0,0,0.5);
 }
 
 .core-text {
@@ -108,10 +111,11 @@ body {
     line-height: 1.8;
     color: #f5f5f5;
     letter-spacing: 0.5px;
+    text-shadow: 0 2px 15px rgba(0,0,0,0.5);
 }
 
 /* ============================================
-   EASTER EGG COUNTER (Minimal)
+   EASTER EGG COUNTER
    ============================================ */
 
 .egg-counter {
@@ -120,18 +124,69 @@ body {
     left: 20px;
     z-index: 1000;
     font-family: 'EB Garamond', serif;
-    font-size: 16px;
-    color: rgba(255, 255, 255, 0.4);
+    font-size: 18px;
+    color: rgba(255, 255, 255, 0.5);
     letter-spacing: 1px;
+    background: rgba(0, 0, 0, 0.3);
+    padding: 10px 16px;
+    border-radius: 20px;
+    backdrop-filter: blur(10px);
+}
+
+.counter-label {
+    opacity: 0.7;
 }
 
 .counter-value {
-    color: rgba(255, 255, 255, 0.8);
-    font-weight: 500;
+    color: rgba(255, 182, 255, 0.9);
+    font-weight: 600;
+    font-size: 20px;
 }
 
 .counter-total {
     opacity: 0.6;
+}
+
+/* Music Control */
+.music-control {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+}
+
+.music-toggle {
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: rgba(255, 255, 255, 0.7);
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    cursor: pointer;
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+    font-size: 20px;
+}
+
+.music-toggle:hover {
+    background: rgba(0, 0, 0, 0.5);
+    border-color: rgba(255, 255, 255, 0.4);
+    transform: scale(1.05);
+}
+
+.music-toggle.playing {
+    color: rgba(255, 182, 255, 0.9);
+    border-color: rgba(255, 182, 255, 0.5);
+}
+
+/* Easter Egg Hints */
+.easter-hint {
+    margin-top: 2rem;
+    font-family: 'EB Garamond', serif;
+    font-size: 0.95rem;
+    color: rgba(255, 255, 255, 0.4);
+    font-style: italic;
+    letter-spacing: 0.5px;
 }
 
 /* ============================================
@@ -139,14 +194,14 @@ body {
    ============================================ */
 
 .track-lover .bg-image {
-    filter: blur(28px) brightness(0.65) saturate(1.1);
+    filter: blur(12px) brightness(0.7) saturate(1.2);
 }
 
 .track-lover .bg-overlay {
-    background: linear-gradient(180deg, rgba(255, 154, 213, 0.15) 0%, rgba(0, 0, 0, 0.4) 100%);
+    background: linear-gradient(180deg, rgba(255, 154, 213, 0.2) 0%, rgba(0, 0, 0, 0.3) 100%);
 }
 
-/* Star Field - 19 stars, subtle */
+/* Star Field - MORE VISIBLE */
 #loverStars {
     position: absolute;
     inset: 0;
@@ -155,23 +210,53 @@ body {
 
 .lover-star {
     position: absolute;
-    width: 2px;
-    height: 2px;
-    background: rgba(255, 255, 255, 0.6);
+    width: 6px;  /* Increased from 2px */
+    height: 6px;
+    background: rgba(255, 255, 255, 0.8);
     border-radius: 50%;
     cursor: pointer;
     pointer-events: all;
     transition: all 0.3s ease;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+    animation: starTwinkle 3s ease-in-out infinite;
+}
+
+@keyframes starTwinkle {
+    0%, 100% { opacity: 0.8; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.2); }
+}
+
+.lover-star[data-egg] {
+    width: 8px;
+    height: 8px;
+    background: rgba(255, 182, 255, 0.9);
+    box-shadow: 0 0 15px rgba(255, 182, 255, 0.7);
+    animation: specialStarPulse 2s ease-in-out infinite;
+}
+
+@keyframes specialStarPulse {
+    0%, 100% { 
+        opacity: 0.9; 
+        transform: scale(1);
+        box-shadow: 0 0 15px rgba(255, 182, 255, 0.7);
+    }
+    50% { 
+        opacity: 1; 
+        transform: scale(1.4);
+        box-shadow: 0 0 25px rgba(255, 182, 255, 1);
+    }
 }
 
 .lover-star:hover {
-    background: rgba(255, 182, 255, 0.9);
-    box-shadow: 0 0 8px rgba(255, 182, 255, 0.6);
+    background: rgba(255, 182, 255, 1);
+    box-shadow: 0 0 20px rgba(255, 182, 255, 0.9);
+    transform: scale(1.5);
 }
 
 .lover-star.found {
-    background: rgba(255, 182, 255, 1);
-    box-shadow: 0 0 12px rgba(255, 182, 255, 0.8);
+    background: rgba(201, 162, 39, 1);
+    box-shadow: 0 0 20px rgba(201, 162, 39, 1);
+    animation: none;
 }
 
 /* ============================================
@@ -179,11 +264,11 @@ body {
    ============================================ */
 
 .track-folklore .bg-image {
-    filter: blur(28px) brightness(0.45) grayscale(0.3);
+    filter: blur(10px) brightness(0.5) grayscale(0.2);
 }
 
 .track-folklore .bg-overlay {
-    background: rgba(232, 228, 223, 0.08);
+    background: rgba(232, 228, 223, 0.1);
 }
 
 #threadCanvas {
@@ -197,11 +282,11 @@ body {
    ============================================ */
 
 .track-reputation .bg-image {
-    filter: blur(28px) brightness(0.25);
+    filter: blur(12px) brightness(0.35);
 }
 
 .track-reputation .bg-overlay {
-    background: rgba(0, 0, 0, 0.6);
+    background: rgba(0, 0, 0, 0.5);
 }
 
 .newspaper-overlay {
@@ -222,33 +307,43 @@ body {
 
 .trigger-word {
     position: relative;
-    cursor: help;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-    transition: border-color 0.3s ease;
+    cursor: pointer;
+    border-bottom: 2px solid rgba(255, 182, 255, 0.4);
+    transition: all 0.3s ease;
+    padding: 0 4px;
 }
 
 .trigger-word:hover {
-    border-color: rgba(255, 255, 255, 0.5);
+    border-color: rgba(255, 182, 255, 0.8);
+    background: rgba(255, 182, 255, 0.1);
 }
 
 .snake-svg,
 .flower-svg {
     position: absolute;
-    width: 60px;
-    height: 60px;
+    width: 80px;  /* Increased size */
+    height: 80px;
     top: 30%;
     right: 15%;
-    color: rgba(255, 255, 255, 0.3);
+    color: rgba(255, 255, 255, 0.5);
     opacity: 0;
     transition: opacity 0.5s ease;
+    cursor: pointer;
+    filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.3));
 }
 
-.trigger-word:hover + .snake-svg {
+.snake-svg:hover {
+    color: rgba(255, 255, 255, 0.8);
+    transform: scale(1.1);
+}
+
+.trigger-word:hover ~ .snake-svg {
     opacity: 1;
 }
 
 .flower-svg {
-    color: rgba(255, 182, 193, 0.6);
+    color: rgba(255, 182, 193, 0.8);
+    filter: drop-shadow(0 0 15px rgba(255, 182, 193, 0.5));
 }
 
 /* ============================================
@@ -256,11 +351,11 @@ body {
    ============================================ */
 
 .track-midnights .bg-image {
-    filter: blur(28px) brightness(0.35);
+    filter: blur(12px) brightness(0.4);
 }
 
 .track-midnights .bg-overlay {
-    background: radial-gradient(circle at 50% 50%, rgba(11, 29, 58, 0.3) 0%, rgba(0, 0, 0, 0.6) 100%);
+    background: radial-gradient(circle at 50% 50%, rgba(11, 29, 58, 0.4) 0%, rgba(0, 0, 0, 0.5) 100%);
 }
 
 #midnightStars {
@@ -270,27 +365,46 @@ body {
 
 .midnight-star {
     position: absolute;
-    width: 3px;
-    height: 3px;
-    background: rgba(224, 232, 255, 0.5);
+    width: 5px;  /* Increased from 3px */
+    height: 5px;
+    background: rgba(224, 232, 255, 0.7);
     border-radius: 50%;
     cursor: pointer;
     transition: all 0.3s ease;
+    box-shadow: 0 0 8px rgba(224, 232, 255, 0.4);
+    animation: starTwinkle 4s ease-in-out infinite;
 }
 
 .midnight-star.special {
-    background: rgba(201, 162, 39, 0.6);
-    box-shadow: 0 0 6px rgba(201, 162, 39, 0.4);
+    width: 8px;
+    height: 8px;
+    background: rgba(201, 162, 39, 0.8);
+    box-shadow: 0 0 15px rgba(201, 162, 39, 0.6);
+    animation: lavenderPulse 2.5s ease-in-out infinite;
+}
+
+@keyframes lavenderPulse {
+    0%, 100% { 
+        opacity: 0.8; 
+        transform: scale(1);
+        box-shadow: 0 0 15px rgba(201, 162, 39, 0.6);
+    }
+    50% { 
+        opacity: 1; 
+        transform: scale(1.5);
+        box-shadow: 0 0 25px rgba(201, 162, 39, 1);
+    }
 }
 
 .midnight-star:hover {
-    transform: scale(1.5);
-    box-shadow: 0 0 10px currentColor;
+    transform: scale(1.8);
+    box-shadow: 0 0 15px currentColor;
 }
 
 .midnight-star.found {
     background: rgba(201, 162, 39, 1);
-    box-shadow: 0 0 15px rgba(201, 162, 39, 0.8);
+    box-shadow: 0 0 20px rgba(201, 162, 39, 1);
+    animation: none;
 }
 
 .clock-subtle {
@@ -298,15 +412,22 @@ body {
     bottom: 15%;
     right: 20%;
     font-family: 'EB Garamond', serif;
-    font-size: 1rem;
-    color: rgba(201, 162, 39, 0.4);
-    letter-spacing: 2px;
+    font-size: 1.4rem;  /* Increased from 1rem */
+    color: rgba(201, 162, 39, 0.6);
+    letter-spacing: 3px;
     cursor: pointer;
-    transition: color 0.3s ease;
+    transition: all 0.3s ease;
+    padding: 8px 16px;
+    border: 1px solid rgba(201, 162, 39, 0.3);
+    border-radius: 4px;
+    background: rgba(0, 0, 0, 0.2);
 }
 
 .clock-subtle:hover {
-    color: rgba(201, 162, 39, 0.8);
+    color: rgba(201, 162, 39, 1);
+    border-color: rgba(201, 162, 39, 0.8);
+    box-shadow: 0 0 20px rgba(201, 162, 39, 0.4);
+    transform: scale(1.1);
 }
 
 /* ============================================
@@ -318,22 +439,33 @@ body {
 }
 
 .track-five .bg-image {
-    filter: blur(35px) brightness(0.25) grayscale(0.5);
+    filter: blur(15px) brightness(0.3) grayscale(0.4);
 }
 
 .hidden-egg {
     position: absolute;
     bottom: 10%;
     left: 5%;
-    width: 40px;
-    height: 40px;
+    width: 60px;  /* Increased from 40px */
+    height: 60px;
     cursor: pointer;
-    opacity: 0;
+    opacity: 0.05;  /* Slightly visible */
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    transition: all 0.3s ease;
 }
 
 .hidden-egg:hover {
-    opacity: 0.1;
-    background: rgba(255, 255, 255, 0.05);
+    opacity: 0.3;
+    background: rgba(255, 255, 255, 0.15);
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+    transform: scale(1.1);
+}
+
+.hidden-egg.found {
+    background: rgba(201, 162, 39, 0.3);
+    box-shadow: 0 0 20px rgba(201, 162, 39, 0.5);
+    opacity: 0.5;
 }
 
 /* ============================================
@@ -341,7 +473,7 @@ body {
    ============================================ */
 
 .track-vault .bg-image {
-    filter: blur(30px) brightness(0.3);
+    filter: blur(12px) brightness(0.4);
 }
 
 .vault-locked {
@@ -360,13 +492,14 @@ body {
     font-family: 'Cormorant Garamond', serif;
     font-size: clamp(1.2rem, 4vw, 1.8rem);
     line-height: 1.8;
-    color: rgba(255, 255, 255, 0.7);
+    color: rgba(255, 255, 255, 0.8);
     font-weight: 300;
 }
 
 .fragments-needed {
-    color: rgba(255, 255, 255, 0.5);
-    font-size: 0.9em;
+    color: rgba(255, 182, 255, 0.7);
+    font-size: 1em;
+    font-weight: 400;
 }
 
 .vault-treasures {
@@ -374,37 +507,50 @@ body {
     grid-template-columns: repeat(2, 1fr);
     gap: 30px;
     margin-top: 3rem;
-    max-width: 400px;
+    max-width: 500px;
     margin-left: auto;
     margin-right: auto;
 }
 
 .treasure {
     aspect-ratio: 1;
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    border-radius: 8px;
+    border: 2px solid rgba(255, 255, 255, 0.25);
+    border-radius: 12px;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
+    gap: 10px;
     cursor: pointer;
     transition: all 0.3s ease;
-    color: rgba(255, 255, 255, 0.3);
+    color: rgba(255, 255, 255, 0.5);
+    background: rgba(0, 0, 0, 0.2);
 }
 
 .treasure:hover {
-    border-color: rgba(255, 255, 255, 0.4);
-    background: rgba(255, 255, 255, 0.03);
-    transform: translateY(-2px);
+    border-color: rgba(255, 182, 255, 0.6);
+    background: rgba(255, 182, 255, 0.05);
+    transform: translateY(-4px);
+    box-shadow: 0 5px 20px rgba(255, 182, 255, 0.2);
 }
 
 .treasure svg {
     width: 50%;
-    height: 50%;
+    height: 40%;
+}
+
+.treasure-label {
+    font-family: 'EB Garamond', serif;
+    font-size: 0.9rem;
+    opacity: 0.7;
+    letter-spacing: 1px;
 }
 
 .treasure.found {
-    border-color: rgba(201, 162, 39, 0.6);
-    color: rgba(201, 162, 39, 0.8);
+    border-color: rgba(201, 162, 39, 0.8);
+    color: rgba(201, 162, 39, 1);
+    background: rgba(201, 162, 39, 0.1);
+    box-shadow: 0 0 25px rgba(201, 162, 39, 0.3);
 }
 
 /* Vault Unlocked State */
@@ -415,64 +561,68 @@ body {
 .gold-dust {
     position: absolute;
     inset: 0;
-    background: radial-gradient(circle at 50% 50%, rgba(201, 162, 39, 0.1) 0%, transparent 70%);
+    background: radial-gradient(circle at 50% 50%, rgba(201, 162, 39, 0.15) 0%, transparent 70%);
     pointer-events: none;
     animation: dustGlow 3s ease-in-out infinite;
 }
 
 @keyframes dustGlow {
-    0%, 100% { opacity: 0.3; }
-    50% { opacity: 0.6; }
+    0%, 100% { opacity: 0.4; }
+    50% { opacity: 0.8; }
+}
+
+.love-message {
+    max-width: 600px;
+    margin: 0 auto;
 }
 
 .vault-reveal {
+    font-family: 'Italiana', serif;
+    font-size: clamp(1.8rem, 5vw, 2.8rem);
+    font-weight: 400;
+    line-height: 1.5;
+    color: rgba(255, 255, 255, 0.95);
+    margin-bottom: 2rem;
+    letter-spacing: 2px;
+}
+
+.love-letter {
     font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(1.5rem, 5vw, 2.5rem);
+    font-size: clamp(1.1rem, 3vw, 1.4rem);
     font-weight: 300;
-    line-height: 1.8;
-    color: rgba(255, 255, 255, 0.9);
-    margin-bottom: 3rem;
+    line-height: 1.9;
+    color: rgba(255, 255, 255, 0.85);
+    margin-bottom: 2.5rem;
+    letter-spacing: 0.5px;
 }
 
-.vault-reveal-2,
-.vault-reveal-3 {
-    display: inline-block;
-    opacity: 0;
-}
-
-.vault-reveal-2 {
-    animation: fadeInText 1s ease-out 1.5s forwards;
-}
-
-.vault-reveal-3 {
-    animation: fadeInText 1s ease-out 3s forwards;
-}
-
-@keyframes fadeInText {
-    to {
-        opacity: 1;
-    }
+.signature {
+    display: block;
+    margin-top: 2rem;
+    font-style: italic;
+    color: rgba(255, 182, 255, 0.9);
+    font-size: 1.1em;
 }
 
 .final-button {
     background: transparent;
-    border: 1px solid rgba(201, 162, 39, 0.4);
-    color: rgba(201, 162, 39, 0.9);
-    padding: 16px 40px;
+    border: 2px solid rgba(201, 162, 39, 0.5);
+    color: rgba(201, 162, 39, 1);
+    padding: 18px 50px;
     font-family: 'EB Garamond', serif;
-    font-size: 1.1rem;
-    letter-spacing: 1px;
+    font-size: 1.2rem;
+    letter-spacing: 2px;
     cursor: pointer;
     transition: all 0.4s ease;
-    border-radius: 2px;
-    opacity: 0;
-    animation: fadeInText 0.8s ease-out 4.5s forwards;
+    border-radius: 4px;
+    margin-top: 1rem;
 }
 
 .final-button:hover {
-    border-color: rgba(201, 162, 39, 0.8);
-    background: rgba(201, 162, 39, 0.08);
-    box-shadow: 0 0 20px rgba(201, 162, 39, 0.2);
+    border-color: rgba(201, 162, 39, 1);
+    background: rgba(201, 162, 39, 0.15);
+    box-shadow: 0 0 30px rgba(201, 162, 39, 0.3);
+    transform: scale(1.05);
 }
 
 /* ============================================
@@ -485,10 +635,20 @@ body {
 
 .final-title {
     font-family: 'Italiana', serif;
-    font-size: clamp(2rem, 6vw, 3rem);
-    letter-spacing: 2px;
-    margin-bottom: 2rem;
+    font-size: clamp(2.2rem, 6vw, 3.5rem);
+    letter-spacing: 3px;
+    margin-bottom: 1rem;
     color: rgba(255, 255, 255, 0.95);
+}
+
+.final-subtitle {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.1rem, 3vw, 1.3rem);
+    font-weight: 300;
+    line-height: 1.8;
+    color: rgba(255, 255, 255, 0.7);
+    font-style: italic;
+    margin-bottom: 2.5rem;
 }
 
 .spotify-embed {
@@ -526,7 +686,18 @@ footer {
     .egg-counter {
         top: 15px;
         left: 15px;
-        font-size: 14px;
+        font-size: 16px;
+        padding: 8px 12px;
+    }
+    
+    .music-control {
+        top: 15px;
+        right: 15px;
+    }
+    
+    .music-toggle {
+        width: 44px;
+        height: 44px;
     }
     
     .track-content {
@@ -541,13 +712,13 @@ footer {
     .clock-subtle {
         bottom: 10%;
         right: 10%;
-        font-size: 0.9rem;
+        font-size: 1.2rem;
     }
     
     .snake-svg,
     .flower-svg {
-        width: 50px;
-        height: 50px;
+        width: 70px;
+        height: 70px;
         right: 10%;
     }
 }
@@ -559,11 +730,17 @@ footer {
     
     .vault-treasures {
         grid-template-columns: 1fr;
-        max-width: 200px;
+        max-width: 250px;
     }
     
     .track-title {
         letter-spacing: 2px;
+    }
+    
+    .lover-star[data-egg],
+    .midnight-star.special {
+        width: 10px;
+        height: 10px;
     }
 }
 
@@ -581,13 +758,12 @@ footer {
 }
 
 .egg.found {
-    opacity: 0.5;
-    pointer-events: none;
+    opacity: 0.7;
 }
 
 /* Parallax effect (subtle) */
 @media (prefers-reduced-motion: no-preference) {
     .track:hover .bg-image {
-        transform: scale(1.12);
+        transform: scale(1.08);
     }
 }
