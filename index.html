@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="lover">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Eras (Your Version)</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=Italiana&family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/themes.css">
+    <link rel="stylesheet" href="css/animations.css">
+</head>
+<body>
+    <!-- Theme Switcher -->
+    <div class="theme-switcher">
+        <button class="theme-btn" data-theme="lover">💖</button>
+        <button class="theme-btn" data-theme="folklore">🌾</button>
+        <button class="theme-btn" data-theme="reputation">🐍</button>
+        <button class="theme-btn" data-theme="midnights">🌙</button>
+    </div>
+
+    <!-- Easter Egg Counter -->
+    <div class="egg-counter">
+        <span class="counter-label">Easter Eggs Found:</span>
+        <span id="eggCounter">0 / 13</span>
+    </div>
+
+    <!-- Main Container -->
+    <main class="track-container">
+        
+        <!-- Track 1: Opening Night -->
+        <section class="track" data-track="1" id="track1">
+            <div class="track-content">
+                <div class="glitter-particles"></div>
+                <h1 class="fade-in">It was rare.<br>It was quiet.<br>It was the stArt of an era.</h1>
+                <div class="hidden-thirteen egg" data-egg="thirteen">13</div>
+            </div>
+        </section>
+
+        <!-- Track 2: Invisible -->
+        <section class="track" data-track="2" id="track2">
+            <div class="track-content">
+                <canvas id="threadCanvas"></canvas>
+                <h2 class="folklore-text">Some things don't announce themselveS.<br>They just… stay.</h2>
+                <div class="thread-knot egg" data-egg="knot">✨</div>
+            </div>
+        </section>
+
+        <!-- Track 3: Delicate Situations -->
+        <section class="track" data-track="3" id="track3">
+            <div class="track-content">
+                <div class="terminal">
+                    <p class="terminal-line">> misunderstanding_detected</p>
+                    <p class="terminal-line">> pride_LeveL: unnecessary</p>
+                    <p class="terminal-line">> resolution: loading…</p>
+                </div>
+                <button class="truce-btn" id="truceBtn">CAll It Truce</button>
+                <div class="snake egg" data-egg="snake" id="snakeIcon">🐍</div>
+                <div class="flower" id="flowerIcon" style="display: none;">🌸</div>
+            </div>
+        </section>
+
+        <!-- Track 4: Midnight Thoughts -->
+        <section class="track" data-track="4" id="track4">
+            <div class="track-content">
+                <div class="star-field" id="starField"></div>
+                <h2 class="midnight-text">It's late.<br>You should be revising.<br>But I knoW you'll ace it.</h2>
+            </div>
+        </section>
+
+        <!-- Track 5: Soft Corner (Emotional Core) -->
+        <section class="track track-five" data-track="5" id="track5">
+            <div class="track-content">
+                <p class="track-five-text">
+                    There's a place in mY world<br>
+                    That doesn't need a headline<br>
+                    Or a name<br><br>
+                    It just exists<br>
+                    And it's permanentlS yours.
+                </p>
+            </div>
+        </section>
+
+        <!-- Track 6: From The Vault -->
+        <section class="track" data-track="6" id="track6">
+            <div class="track-content vault-section">
+                <div class="vault-locked" id="vaultLocked">
+                    <h2>🔒 Vault Locked</h2>
+                    <p class="vault-hint">4 Easter eggs remaining...</p>
+                    <div class="vault-treasures">
+                        <div class="treasure egg" data-egg="scarf" title="Find the red scarf">🧣</div>
+                        <div class="treasure egg" data-egg="typewriter" title="Find the typewriter">⌨️</div>
+                        <div class="treasure egg" data-egg="clock" title="The time is 1:13">🕐</div>
+                        <div class="treasure egg hover-secret" data-egg="secret" title="You found the hidden message!">💌</div>
+                    </div>
+                </div>
+                
+                <div class="vault-unlocked" id="vaultUnlocked" style="display: none;">
+                    <div class="dust-particles"></div>
+                    <h2 class="vault-title">From The Vault (Unlocked)</h2>
+                    <p class="vault-message">Long storY short…<br>I'm still here.<br>And I always will be.</p>
+                    <button class="play-btn" id="playFinalTrack">Play The Final Track</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Final Track Section -->
+        <section class="track final-track" data-track="7" id="finalTrack" style="display: none;">
+            <div class="track-content">
+                <h2 class="final-title">💫 Invisible String 💫</h2>
+                <div class="spotify-container">
+                    <iframe 
+                        style="border-radius:12px" 
+                        src="https://open.spotify.com/embed/track/1yA2dIYdRFHd2xr9vxwDnM?utm_source=generator" 
+                        width="100%" 
+                        height="352" 
+                        frameBorder="0" 
+                        allowfullscreen="" 
+                        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
+                        loading="lazy">
+                    </iframe>
+                </div>
+                <p class="final-message">This was always for you. 💕</p>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <p>v1.3.13 (Your Version)</p>
+        <p id="timeGreeting"></p>
+    </footer>
+
+    <!-- Scripts -->
+    <script type="module" src="js/app.js"></script>
+</body>
+</html>

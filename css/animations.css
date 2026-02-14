@@ -1,0 +1,332 @@
+/* Animations */
+
+/* Fade In */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fade-in {
+    animation: fadeIn 2s ease-out;
+}
+
+/* Fade In Up */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Float Animation */
+@keyframes float {
+    0%, 100% {
+        transform: translateX(-50%) translateY(0);
+    }
+    50% {
+        transform: translateX(-50%) translateY(-10px);
+    }
+}
+
+/* Wiggle Animation for Snake */
+@keyframes wiggle {
+    0%, 100% {
+        transform: rotate(-3deg);
+    }
+    50% {
+        transform: rotate(3deg);
+    }
+}
+
+/* Bloom Animation for Flower */
+@keyframes bloom {
+    0% {
+        transform: scale(0) rotate(0deg);
+        opacity: 0;
+    }
+    50% {
+        transform: scale(1.2) rotate(180deg);
+    }
+    100% {
+        transform: scale(1) rotate(360deg);
+        opacity: 1;
+    }
+}
+
+/* Star Glow */
+@keyframes starGlow {
+    0%, 100% {
+        box-shadow: 0 0 20px currentColor;
+    }
+    50% {
+        box-shadow: 0 0 30px currentColor, 0 0 40px currentColor;
+    }
+}
+
+/* Pulse Animation */
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 0.8;
+        transform: scale(1.05);
+    }
+}
+
+/* Glitter Particles */
+@keyframes glitterFall {
+    0% {
+        transform: translateY(-10px) rotate(0deg);
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+    }
+    90% {
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(100vh) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+.glitter-particles::before,
+.glitter-particles::after {
+    content: '✨';
+    position: absolute;
+    font-size: 1.5rem;
+    animation: glitterFall 8s linear infinite;
+}
+
+.glitter-particles::before {
+    left: 20%;
+    animation-delay: 0s;
+}
+
+.glitter-particles::after {
+    left: 80%;
+    animation-delay: 4s;
+}
+
+/* Dust Particles for Vault */
+@keyframes dustFloat {
+    0% {
+        transform: translate(0, 0) rotate(0deg);
+        opacity: 0;
+    }
+    10% {
+        opacity: 0.6;
+    }
+    90% {
+        opacity: 0.6;
+    }
+    100% {
+        transform: translate(100px, -100px) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+.dust-particles::before,
+.dust-particles::after {
+    content: '✨';
+    position: absolute;
+    font-size: 1rem;
+    opacity: 0.6;
+    animation: dustFloat 3s ease-out infinite;
+}
+
+.dust-particles::before {
+    left: 30%;
+    top: 50%;
+    animation-delay: 0s;
+}
+
+.dust-particles::after {
+    left: 70%;
+    top: 50%;
+    animation-delay: 1.5s;
+}
+
+/* Shake Animation for Vault Unlock */
+@keyframes shake {
+    0%, 100% {
+        transform: translateX(0);
+    }
+    25% {
+        transform: translateX(-10px);
+    }
+    75% {
+        transform: translateX(10px);
+    }
+}
+
+.vault-unlocked {
+    animation: fadeInUp 1s ease-out;
+}
+
+.vault-locked.shaking {
+    animation: shake 0.5s ease-in-out;
+}
+
+/* Typewriter Effect */
+@keyframes typewriter {
+    from {
+        width: 0;
+    }
+    to {
+        width: 100%;
+    }
+}
+
+.typewriter-text {
+    overflow: hidden;
+    white-space: nowrap;
+    animation: typewriter 2s steps(40) 1s forwards;
+    width: 0;
+}
+
+/* Gradient Animation */
+@keyframes gradientShift {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+/* Glow Pulse */
+@keyframes glowPulse {
+    0%, 100% {
+        filter: drop-shadow(0 0 5px currentColor);
+    }
+    50% {
+        filter: drop-shadow(0 0 20px currentColor);
+    }
+}
+
+/* Bounce */
+@keyframes bounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-20px);
+    }
+}
+
+/* Scale In */
+@keyframes scaleIn {
+    from {
+        transform: scale(0);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* Rotate */
+@keyframes rotate {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Slide In From Left */
+@keyframes slideInLeft {
+    from {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+/* Slide In From Right */
+@keyframes slideInRight {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+/* Easter Egg Found Animation */
+@keyframes eggFound {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.5) rotate(180deg);
+    }
+    100% {
+        transform: scale(0);
+    }
+}
+
+.egg.collecting {
+    animation: eggFound 0.6s ease-out forwards;
+}
+
+/* Hover Effects */
+.hover-lift:hover {
+    animation: bounce 0.5s ease-in-out;
+}
+
+/* Sparkle Effect */
+@keyframes sparkle {
+    0%, 100% {
+        opacity: 0;
+        transform: scale(0);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.sparkle {
+    animation: sparkle 1s ease-in-out infinite;
+}
+
+/* Smooth Scroll Indicator */
+@keyframes scrollIndicate {
+    0%, 100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+    50% {
+        transform: translateY(10px);
+        opacity: 0.5;
+    }
+}
+
+.scroll-indicator {
+    animation: scrollIndicate 2s ease-in-out infinite;
+}
