@@ -14,18 +14,24 @@
 </head>
 <body>
     
-    <!-- Easter Egg Counter -->
-    <div class="egg-counter" id="eggCounter">
-        <span class="counter-label">Fragments: </span>
-        <span class="counter-value">0</span><span class="counter-total">/13</span>
+    <!-- Progress Tracker (Minimal) -->
+    <div class="progress-tracker" id="progressTracker">
+        <div class="progress-circle">
+            <svg viewBox="0 0 36 36">
+                <path class="progress-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                <path class="progress-fill" id="progressFill" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" stroke-dasharray="0, 100"/>
+            </svg>
+            <span class="progress-text" id="progressText">0</span>
+        </div>
     </div>
 
     <!-- Music Control -->
-    <div class="music-control" id="musicControl">
-        <button class="music-toggle" id="musicToggle">
-            <span class="music-icon">♪</span>
-        </button>
-    </div>
+    <button class="music-control" id="musicControl" title="Toggle music">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path class="music-note" d="M9 18V5l12-2v13M9 18c0 1.657-1.343 3-3 3s-3-1.343-3-3 1.343-3 3-3 3 1.343 3 3zm12-5c0 1.657-1.343 3-3 3s-3-1.343-3-3 1.343-3 3-3 3 1.343 3 3z" stroke="currentColor" stroke-width="2"/>
+            <line class="music-mute" x1="2" y1="2" x2="22" y2="22" stroke="currentColor" stroke-width="2" style="display:none;"/>
+        </svg>
+    </button>
 
     <!-- Main Container -->
     <main class="experience">
@@ -34,10 +40,18 @@
         <section class="track track-lover" data-track="1" data-album="lover">
             <div class="bg-image" style="background-image: url('https://upload.wikimedia.org/wikipedia/en/c/cd/Taylor_Swift_-_Lover.png');"></div>
             <div class="bg-overlay"></div>
+            
+            <!-- Interactive particles -->
+            <canvas class="particles-canvas" id="loverParticles"></canvas>
+            
             <div class="track-content">
                 <h1 class="track-title">Some stories begin softly.</h1>
-                <div class="star-field" id="loverStars"></div>
-                <div class="easter-hint">💫 Look for the lucky number in the stars...</div>
+                <div class="constellation" id="loverConstellation"></div>
+                <button class="hint-toggle" data-hint="lover">?</button>
+            </div>
+            
+            <div class="hint-panel" id="hint-lover">
+                <p>Look for patterns in the stars. Some shine differently than others.</p>
             </div>
         </section>
 
@@ -45,10 +59,16 @@
         <section class="track track-folklore" data-track="2" data-album="folklore">
             <div class="bg-image" style="background-image: url('https://upload.wikimedia.org/wikipedia/en/f/f8/Taylor_Swift_-_Folklore.png');"></div>
             <div class="bg-overlay"></div>
+            
             <div class="track-content">
                 <canvas id="threadCanvas"></canvas>
                 <h2 class="track-subtitle">Some connections don't need a label.<br>They're just… understood.</h2>
-                <div class="easter-hint">🧵 Draw an invisible string with your mouse...</div>
+                <div class="forest-scene" id="forestScene"></div>
+                <button class="hint-toggle" data-hint="folklore">?</button>
+            </div>
+            
+            <div class="hint-panel" id="hint-folklore">
+                <p>Draw with your cursor to weave invisible threads. When paths cross, magic happens.</p>
             </div>
         </section>
 
@@ -57,19 +77,24 @@
             <div class="bg-image" style="background-image: url('https://upload.wikimedia.org/wikipedia/en/f/f2/Taylor_Swift_-_Reputation.png');"></div>
             <div class="bg-overlay"></div>
             <div class="newspaper-overlay"></div>
+            
             <div class="track-content">
-                <h2 class="track-subtitle">Misunderstandings are often <span class="trigger-word" data-egg="projections" title="Click the word to reveal">projections</span>.</h2>
-                <svg class="snake-svg" id="snakeSvg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M10,50 Q30,30 50,50 T90,50" stroke="currentColor" fill="none" stroke-width="2"/>
-                </svg>
-                <svg class="flower-svg" id="flowerSvg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="display:none;">
-                    <circle cx="50" cy="50" r="20" fill="none" stroke="currentColor" stroke-width="1.5"/>
-                    <circle cx="50" cy="30" r="8" fill="none" stroke="currentColor" stroke-width="1"/>
-                    <circle cx="70" cy="50" r="8" fill="none" stroke="currentColor" stroke-width="1"/>
-                    <circle cx="50" cy="70" r="8" fill="none" stroke="currentColor" stroke-width="1"/>
-                    <circle cx="30" cy="50" r="8" fill="none" stroke="currentColor" stroke-width="1"/>
-                </svg>
-                <div class="easter-hint">🐍 Hover over the underlined word...</div>
+                <h2 class="track-subtitle">
+                    Misunderstandings are often 
+                    <span class="interactive-word" data-interaction="reveal">projections</span>.
+                </h2>
+                <div class="metamorphosis-container" id="metamorphosis">
+                    <svg class="morph-svg hidden" id="morphSvg" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                        <g id="creature">
+                            <!-- Will be populated by JS -->
+                        </g>
+                    </svg>
+                </div>
+                <button class="hint-toggle" data-hint="reputation">?</button>
+            </div>
+            
+            <div class="hint-panel" id="hint-reputation">
+                <p>Words can reveal truths. Hover, wait, and watch the transformation unfold.</p>
             </div>
         </section>
 
@@ -77,92 +102,124 @@
         <section class="track track-midnights" data-track="4" data-album="midnights">
             <div class="bg-image" style="background-image: url('https://upload.wikimedia.org/wikipedia/en/9/9f/Midnights_-_Taylor_Swift.png');"></div>
             <div class="bg-overlay"></div>
+            
             <div class="track-content">
-                <div class="midnight-stars" id="midnightStars"></div>
+                <div class="sky-canvas" id="skyCanvas"></div>
                 <h2 class="track-subtitle">It's late.<br>You should be revising cognitive biases.</h2>
-                <div class="clock-subtle" data-egg="clock" title="April 19 at 1:19 AM">1:19</div>
-                <div class="easter-hint">⭐ Find the lavender haze stars & the special time...</div>
+                <div class="time-keeper" id="timeKeeper">
+                    <div class="time-display"></div>
+                </div>
+                <button class="hint-toggle" data-hint="midnights">?</button>
+            </div>
+            
+            <div class="hint-panel" id="hint-midnights">
+                <p>Some stars hold secrets. Look for the ones touched by lavender haze. Time reveals patterns.</p>
             </div>
         </section>
 
         <!-- Track 5: Emotional Core -->
         <section class="track track-five" data-track="5" data-album="folklore">
             <div class="bg-image" style="background-image: url('https://upload.wikimedia.org/wikipedia/en/f/f8/Taylor_Swift_-_Folklore.png');"></div>
-            <div class="bg-overlay" style="background: rgba(0,0,0,0.65);"></div>
+            <div class="bg-overlay" style="background: rgba(0,0,0,0.7);"></div>
+            
             <div class="track-content">
                 <p class="core-text">
-                    There's a quiet corner in my world<br>
+                    There's a quiet <span class="subtle-highlight" data-secret="corner">corner</span> in my world<br>
                     that doesn't require analysis,<br>
                     interpretation,<br>
                     or theory.<br><br>
                     It just exists.<br>
                     And it's yours.
                 </p>
-                <div class="hidden-egg" data-egg="corner" title="A quiet corner"></div>
-                <div class="easter-hint">💭 Find the quiet corner mentioned...</div>
+                <div class="memory-box" id="memoryBox">
+                    <div class="memory-item" data-memory="1"></div>
+                    <div class="memory-item" data-memory="2"></div>
+                    <div class="memory-item" data-memory="3"></div>
+                </div>
+                <button class="hint-toggle" data-hint="five">?</button>
+            </div>
+            
+            <div class="hint-panel" id="hint-five">
+                <p>Listen to the words. Some carry weight. Memories can be arranged.</p>
             </div>
         </section>
 
-        <!-- Track 6: The Vault -->
+        <!-- Track 6: The Collection -->
         <section class="track track-vault" data-track="6" data-album="lover">
             <div class="bg-image" style="background-image: url('https://upload.wikimedia.org/wikipedia/en/c/cd/Taylor_Swift_-_Lover.png');"></div>
             <div class="bg-overlay" style="background: rgba(0,0,0,0.75);"></div>
+            
             <div class="track-content">
                 
                 <!-- Locked State -->
-                <div class="vault-locked" id="vaultLocked">
-                    <svg class="vault-door" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-                        <rect x="40" y="60" width="120" height="100" fill="none" stroke="currentColor" stroke-width="2" opacity="0.3"/>
-                        <circle cx="100" cy="110" r="15" fill="none" stroke="currentColor" stroke-width="2" opacity="0.3"/>
-                    </svg>
-                    <p class="vault-status" id="vaultStatus">The Vault remains sealed.<br><span class="fragments-needed">13 fragments required.</span></p>
+                <div class="collection-locked" id="collectionLocked">
+                    <div class="lock-mechanism">
+                        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="50" cy="50" r="40" fill="none" stroke="currentColor" stroke-width="1" opacity="0.2"/>
+                            <circle cx="50" cy="50" r="30" fill="none" stroke="currentColor" stroke-width="1" opacity="0.3"/>
+                            <circle cx="50" cy="50" r="20" fill="none" stroke="currentColor" stroke-width="1" opacity="0.4"/>
+                        </svg>
+                    </div>
+                    <p class="collection-status" id="collectionStatus">
+                        <span class="status-line">The collection remains sealed.</span>
+                        <span class="fragments-count" id="fragmentsCount">13 fragments await discovery.</span>
+                    </p>
                     
-                    <!-- Vault Treasures -->
-                    <div class="vault-treasures">
-                        <div class="treasure" data-egg="scarf" title="All Too Well - Red scarf left at her sister's house">
-                            <svg viewBox="0 0 100 50" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M10,25 Q30,10 50,25 T90,25" stroke="currentColor" fill="none" stroke-width="1.5"/>
-                            </svg>
-                            <div class="treasure-label">Red Scarf</div>
-                        </div>
-                        <div class="treasure" data-egg="typewriter" title="All Too Well - She wrote it on her typewriter">
+                    <!-- Interactive artifacts -->
+                    <div class="artifact-display">
+                        <div class="artifact" data-artifact="autumn" id="artifact1">
+                            <div class="artifact-glow"></div>
                             <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                                <rect x="20" y="40" width="60" height="40" fill="none" stroke="currentColor" stroke-width="1.5"/>
-                                <line x1="30" y1="55" x2="70" y2="55" stroke="currentColor" stroke-width="1"/>
-                                <line x1="30" y1="65" x2="70" y2="65" stroke="currentColor" stroke-width="1"/>
+                                <path d="M30,20 Q50,10 70,20 L70,40 Q50,50 30,40 Z" fill="none" stroke="currentColor" stroke-width="1"/>
                             </svg>
-                            <div class="treasure-label">Typewriter</div>
+                        </div>
+                        <div class="artifact" data-artifact="memory" id="artifact2">
+                            <div class="artifact-glow"></div>
+                            <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                                <rect x="25" y="35" width="50" height="35" fill="none" stroke="currentColor" stroke-width="1"/>
+                                <line x1="35" y1="45" x2="65" y2="45" stroke="currentColor" stroke-width="0.5"/>
+                                <line x1="35" y1="55" x2="65" y2="55" stroke="currentColor" stroke-width="0.5"/>
+                            </svg>
                         </div>
                     </div>
-                    <div class="easter-hint">🔐 Taylor's vault items from the re-recordings...</div>
+                    <button class="hint-toggle" data-hint="vault">?</button>
                 </div>
                 
                 <!-- Unlocked State -->
-                <div class="vault-unlocked" id="vaultUnlocked" style="display: none;">
-                    <div class="gold-dust"></div>
-                    <div class="love-message">
-                        <h2 class="vault-reveal">To someone who sees beyond the surface,</h2>
-                        <p class="love-letter">
-                            You understand that some things can't be theorized or analyzed.<br>
-                            Some connections are invisible strings,<br>
-                            tying hearts across time and space.<br><br>
-                            
-                            Like folklore whispered between souls,<br>
-                            like midnight thoughts that only two people share,<br>
-                            like the quiet certainty that comes with finding your person.<br><br>
-                            
-                            You found all 13 fragments.<br>
-                            You saw the pattern in the stars.<br>
-                            You understood what others missed.<br><br>
-                            
-                            <span class="signature">Long story short…<br>I'm still here.<br>And I always will be.</span>
-                        </p>
+                <div class="collection-unlocked" id="collectionUnlocked" style="display: none;">
+                    <div class="light-rays"></div>
+                    <div class="revelation">
+                        <h2 class="revelation-title">To someone who sees beyond the surface,</h2>
+                        <div class="revelation-content">
+                            <p>
+                                You understand that some things transcend theory and analysis.<br>
+                                Some connections are invisible strings,<br>
+                                tying hearts across time and space.<br><br>
+                                
+                                Like folklore whispered between souls,<br>
+                                like midnight thoughts only two can share,<br>
+                                like the quiet certainty of finding your person.<br><br>
+                                
+                                You found all thirteen fragments.<br>
+                                You saw what others missed.<br>
+                                You understood the pattern.<br><br>
+                            </p>
+                            <p class="revelation-signature">
+                                Long story short…<br>
+                                I'm still here.<br>
+                                And I always will be.
+                            </p>
+                        </div>
                     </div>
-                    <button class="final-button" id="playFinalTrack">
-                        <span>✨ Our Song ✨</span>
+                    <button class="final-reveal" id="finalReveal">
+                        <span>Our Song</span>
                     </button>
                 </div>
                 
+            </div>
+            
+            <div class="hint-panel" id="hint-vault">
+                <p>Some memories need to be rediscovered. Interact with what remains.</p>
             </div>
         </section>
 
@@ -172,7 +229,7 @@
             <div class="bg-overlay" style="background: rgba(11, 29, 58, 0.85);"></div>
             <div class="track-content">
                 <h2 class="final-title">Invisible String</h2>
-                <p class="final-subtitle">"And isn't it just so pretty to think<br>All along there was some invisible string<br>Tying you to me?"</p>
+                <p class="final-quote">"And isn't it just so pretty to think<br>All along there was some invisible string<br>Tying you to me?"</p>
                 <div class="spotify-embed">
                     <iframe 
                         style="border-radius:12px" 
@@ -192,20 +249,20 @@
 
     <!-- Footer -->
     <footer>
-        <p>v1.3.13 • Built with love on April 19</p>
+        <p>v1.3.13</p>
     </footer>
 
-    <!-- Audio Elements (Background Music) -->
-    <audio id="loverAudio" loop>
+    <!-- Audio Elements -->
+    <audio id="loverAudio" loop preload="auto">
         <source src="audio/lover-instrumental.mp3" type="audio/mpeg">
     </audio>
-    <audio id="folkloreAudio" loop>
+    <audio id="folkloreAudio" loop preload="auto">
         <source src="audio/folklore-instrumental.mp3" type="audio/mpeg">
     </audio>
-    <audio id="reputationAudio" loop>
+    <audio id="reputationAudio" loop preload="auto">
         <source src="audio/reputation-instrumental.mp3" type="audio/mpeg">
     </audio>
-    <audio id="midnightsAudio" loop>
+    <audio id="midnightsAudio" loop preload="auto">
         <source src="audio/midnights-instrumental.mp3" type="audio/mpeg">
     </audio>
 

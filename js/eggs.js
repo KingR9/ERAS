@@ -1,123 +1,94 @@
-// Easter Egg System - Enhanced & More Discoverable
-// Taylor Swift themed easter eggs with clear visual cues
-
+// Easter Eggs - Interactive Puzzles
 import { AppState, saveState } from './state.js';
 
-// Collect an Easter egg
-export function collectEgg(eggId, element = null) {
-    if (AppState.eggsFound.has(eggId)) {
-        return false;
-    }
+export function collectEgg(eggId) {
+    if (AppState.eggsFound.has(eggId)) return false;
     
     AppState.eggsFound.add(eggId);
-    
-    // Visual feedback if element provided
-    if (element) {
-        element.classList.add('collecting');
-        setTimeout(() => {
-            element.classList.add('found');
-        }, 300);
-    }
-    
-    // Update counter with animation
-    updateCounter();
-    
-    // Save state
+    updateProgress();
     saveState();
-    
-    // Check vault status
     checkVaultStatus();
-    
-    // Console message
-    console.log(`%c ✨ Fragment ${AppState.eggsFound.size}/13 discovered! `, 
-        'background: rgba(201, 162, 39, 0.2); color: rgba(201, 162, 39, 1); padding: 4px 8px; border-radius: 3px;');
-    
     return true;
 }
 
-// Update the egg counter display
-export function updateCounter() {
-    const counter = document.querySelector('.counter-value');
-    if (counter) {
-        counter.textContent = AppState.eggsFound.size;
-        
-        // Pulse animation
-        counter.style.transform = 'scale(1.3)';
-        setTimeout(() => {
-            counter.style.transform = 'scale(1)';
-        }, 300);
-    }
+export function updateProgress() {
+    const count = AppState.eggsFound.size;
+    const total = AppState.totalEggs;
+    const percentage = (count / total) * 100;
+    
+    document.getElementById('progressText').textContent = count;
+    document.getElementById('progressFill').style.strokeDasharray = `${percentage}, 100`;
 }
 
-// Initialize all Easter eggs
 export function initEasterEggs() {
-    initLoverStars();
-    initThreadCanvas();
-    initReputationInteractions();
-    initMidnightStars();
-    initTrackFiveSecret();
-    initVaultTreasures();
-    
-    // Mark already found eggs
-    markFoundEggs();
-    updateCounter();
-    
-    console.log('%c 🔍 13 Taylor Swift fragments hidden in the eras... ', 
-        'color: rgba(255, 182, 255, 0.7); font-style: italic; font-size: 11px;');
+    initLoverConstellation();
+    initFolkloreThread();
+    initReputationMorph();
+    initMidnightsSky();
+    initEmotionalCore();
+    initArtifacts();
+    updateProgress();
 }
 
-// Track 1: Lover - 19 stars, 2 special ones form "13"
-function initLoverStars() {
-    const container = document.getElementById('loverStars');
+// TRACK 1: Lover - Find constellation pattern forming "13"
+function initLoverConstellation() {
+    const container = document.getElementById('loverConstellation');
     if (!container) return;
     
     const stars = [];
+    const totalStars = 19;
     
-    // Create 19 stars (Taylor's favorite number + April 19)
-    for (let i = 0; i < 19; i++) {
+    // Create 19 stars
+    for (let i = 0; i < totalStars; i++) {
         const star = document.createElement('div');
-        star.className = 'lover-star';
-        
-        // Random positioning
-        star.style.left = `${Math.random() * 85 + 7.5}%`;
-        star.style.top = `${Math.random() * 75 + 12.5}%`;
-        
-        // Vary animation delay for twinkling effect
-        star.style.animationDelay = `${Math.random() * 3}s`;
+        star.className = 'star';
+        star.style.position = 'absolute';
+        star.style.width = '4px';
+        star.style.height = '4px';
+        star.style.background = 'rgba(255, 255, 255, 0.6)';
+        star.style.borderRadius = '50%';
+        star.style.left = `${Math.random() * 90 + 5}%`;
+        star.style.top = `${Math.random() * 85 + 5}%`;
+        star.style.boxShadow = '0 0 8px rgba(255, 255, 255, 0.4)';
+        star.style.cursor = 'pointer';
+        star.style.transition = 'all 0.3s ease';
         
         container.appendChild(star);
         stars.push(star);
     }
     
-    // Stars that form "13" pattern (easier to spot)
-    const specialStars = [
-        { index: 12, left: '35%', top: '30%', egg: 'star13' },
-        { index: 13, left: '40%', top: '32%', egg: 'starApril' }
+    // Special stars that form "13" when connected
+    const special = [
+        { index: 12, left: '35%', top: '30%', id: 'star_1' },
+        { index: 13, left: '40%', top: '28%', id: 'star_3' }
     ];
     
-    specialStars.forEach(({ index, left, top, egg }) => {
+    special.forEach(({ index, left, top, id }) => {
         const star = stars[index];
-        star.dataset.egg = egg;
         star.style.left = left;
         star.style.top = top;
-        star.title = 'Lucky number 13 ✨';
+        star.dataset.special = id;
+        star.style.background = 'rgba(255, 182, 255, 0.7)';
+        star.style.boxShadow = '0 0 12px rgba(255, 182, 255, 0.6)';
+        star.style.width = '6px';
+        star.style.height = '6px';
         
-        star.addEventListener('click', (e) => {
-            e.stopPropagation();
-            if (collectEgg(egg, star)) {
-                star.classList.add('found');
+        star.addEventListener('click', () => {
+            if (collectEgg(id)) {
+                star.style.background = 'rgba(201, 162, 39, 1)';
+                star.style.boxShadow = '0 0 20px rgba(201, 162, 39, 0.8)';
             }
         });
         
-        // Mark if already found
-        if (AppState.eggsFound.has(egg)) {
-            star.classList.add('found');
+        if (AppState.eggsFound.has(id)) {
+            star.style.background = 'rgba(201, 162, 39, 1)';
+            star.style.boxShadow = '0 0 20px rgba(201, 162, 39, 0.8)';
         }
     });
 }
 
-// Track 2: Folklore - Thread canvas with "invisible string" interaction
-function initThreadCanvas() {
+// TRACK 2: Folklore - Draw invisible string (thread that crosses)
+function initFolkloreThread() {
     const canvas = document.getElementById('threadCanvas');
     if (!canvas) return;
     
@@ -126,365 +97,394 @@ function initThreadCanvas() {
     canvas.height = window.innerHeight;
     
     const points = [];
-    let knotDetected = false;
-    let drawingActive = false;
+    let drawing = false;
+    let knotFound = false;
     
-    const track = document.querySelector('.track-folklore');
-    if (!track) return;
-    
-    // Track mouse/touch movement
     const handleMove = (e) => {
-        const rect = canvas.getBoundingClientRect();
-        const x = (e.clientX || e.touches[0].clientX) - rect.left;
-        const y = (e.clientY || e.touches[0].clientY) - rect.top;
+        if (!drawing) return;
         
-        if (drawingActive) {
-            points.push({ x, y, time: Date.now() });
-            if (points.length > 50) {
-                points.shift();
-            }
-            
-            // Detect knot (thread crossing itself)
-            if (!knotDetected && points.length > 25) {
-                if (detectKnot(points)) {
-                    knotDetected = true;
-                    collectEgg('threadKnot');
-                    showKnotEffect(x, y);
-                }
+        const rect = canvas.getBoundingClientRect();
+        const x = (e.clientX || e.touches?.[0]?.clientX) - rect.left;
+        const y = (e.clientY || e.touches?.[0]?.clientY) - rect.top;
+        
+        points.push({ x, y });
+        if (points.length > 60) points.shift();
+        
+        if (!knotFound && points.length > 30) {
+            if (checkCrossing(points)) {
+                knotFound = true;
+                collectEgg('thread_knot');
+                showKnotEffect(ctx, x, y);
             }
         }
     };
     
-    canvas.addEventListener('mousedown', () => { drawingActive = true; });
-    canvas.addEventListener('mouseup', () => { drawingActive = false; points.length = 0; });
+    canvas.addEventListener('mousedown', () => drawing = true);
+    canvas.addEventListener('mouseup', () => { drawing = false; points.length = 0; });
     canvas.addEventListener('mousemove', handleMove);
-    canvas.addEventListener('touchstart', () => { drawingActive = true; });
-    canvas.addEventListener('touchend', () => { drawingActive = false; points.length = 0; });
+    canvas.addEventListener('touchstart', () => drawing = true);
+    canvas.addEventListener('touchend', () => { drawing = false; points.length = 0; });
     canvas.addEventListener('touchmove', handleMove);
     
-    // Draw thread
-    function draw() {
+    function animate() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         
         if (points.length > 1) {
-            ctx.strokeStyle = 'rgba(255, 182, 255, 0.6)';
+            ctx.strokeStyle = 'rgba(255, 182, 255, 0.5)';
             ctx.lineWidth = 2;
             ctx.lineCap = 'round';
-            ctx.lineJoin = 'round';
-            
             ctx.beginPath();
             ctx.moveTo(points[0].x, points[0].y);
-            
-            for (let i = 1; i < points.length; i++) {
-                const alpha = i / points.length;
-                ctx.globalAlpha = alpha * 0.8;
-                ctx.lineTo(points[i].x, points[i].y);
-            }
-            
+            points.forEach((p, i) => {
+                ctx.globalAlpha = i / points.length;
+                ctx.lineTo(p.x, p.y);
+            });
             ctx.stroke();
             ctx.globalAlpha = 1;
         }
         
-        requestAnimationFrame(draw);
+        requestAnimationFrame(animate);
     }
+    animate();
     
-    draw();
-    
-    // Resize handler
     window.addEventListener('resize', () => {
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
     });
 }
 
-// Detect if thread crosses itself (forms a knot/loop)
-function detectKnot(points) {
-    if (points.length < 25) return false;
-    
+function checkCrossing(points) {
+    if (points.length < 30) return false;
     const recent = points[points.length - 1];
     const middle = points[Math.floor(points.length / 2)];
-    
-    const distance = Math.hypot(recent.x - middle.x, recent.y - middle.y);
-    return distance < 40; // Easier threshold
+    return Math.hypot(recent.x - middle.x, recent.y - middle.y) < 35;
 }
 
-// Show knot effect
-function showKnotEffect(x, y) {
-    const canvas = document.getElementById('threadCanvas');
-    if (!canvas) return;
-    
-    const ctx = canvas.getContext('2d');
-    let alpha = 1;
+function showKnotEffect(ctx, x, y) {
     let radius = 10;
+    let alpha = 1;
     
-    function drawKnot() {
+    function draw() {
         if (alpha <= 0) return;
-        
         ctx.save();
-        ctx.globalAlpha = alpha;
-        ctx.strokeStyle = 'rgba(201, 162, 39, 1)';
+        ctx.strokeStyle = `rgba(201, 162, 39, ${alpha})`;
         ctx.lineWidth = 3;
         ctx.beginPath();
         ctx.arc(x, y, radius, 0, Math.PI * 2);
         ctx.stroke();
         ctx.restore();
+        radius += 2;
+        alpha -= 0.04;
+        requestAnimationFrame(draw);
+    }
+    draw();
+}
+
+// TRACK 3: Reputation - Hover word, watch metamorphosis
+function initReputationMorph() {
+    const word = document.querySelector('.interactive-word');
+    const container = document.getElementById('metamorphosis');
+    const svg = document.getElementById('morphSvg');
+    const creature = document.getElementById('creature');
+    
+    if (!word || !svg) return;
+    
+    let hoverTime = 0;
+    let hoverInterval;
+    let wordCollected = false;
+    let morphCollected = false;
+    
+    word.addEventListener('click', () => {
+        if (!wordCollected && collectEgg('word_reveal')) {
+            wordCollected = true;
+            word.style.borderBottom = '2px solid rgba(201, 162, 39, 0.6)';
+            word.style.background = 'rgba(201, 162, 39, 0.1)';
+        }
+    });
+    
+    word.addEventListener('mouseenter', () => {
+        svg.classList.remove('hidden');
+        svg.classList.add('visible');
         
-        alpha -= 0.03;
-        radius += 1;
-        requestAnimationFrame(drawKnot);
+        // Draw snake
+        creature.innerHTML = `
+            <path d="M50,100 Q60,80 70,70 T90,40 Q95,30 100,20" 
+                  stroke="currentColor" fill="none" stroke-width="2"/>
+            <circle cx="100" cy="18" r="3" fill="currentColor"/>
+        `;
+        
+        hoverInterval = setInterval(() => {
+            hoverTime += 100;
+            if (hoverTime >= 2000 && !morphCollected) {
+                // Morph to flower
+                creature.innerHTML = `
+                    <circle cx="100" cy="100" r="15" fill="none" stroke="currentColor" stroke-width="1.5"/>
+                    <circle cx="100" cy="80" r="8" fill="none" stroke="currentColor" stroke-width="1"/>
+                    <circle cx="120" cy="100" r="8" fill="none" stroke="currentColor" stroke-width="1"/>
+                    <circle cx="100" cy="120" r="8" fill="none" stroke="currentColor" stroke-width="1"/>
+                    <circle cx="80" cy="100" r="8" fill="none" stroke="currentColor" stroke-width="1"/>
+                `;
+                svg.style.color = 'rgba(255, 182, 193, 0.7)';
+                
+                if (collectEgg('metamorphosis')) {
+                    morphCollected = true;
+                }
+                clearInterval(hoverInterval);
+            }
+        }, 100);
+    });
+    
+    word.addEventListener('mouseleave', () => {
+        if (!morphCollected) {
+            svg.classList.add('hidden');
+            svg.classList.remove('visible');
+        }
+        clearInterval(hoverInterval);
+        hoverTime = 0;
+    });
+    
+    if (AppState.eggsFound.has('word_reveal')) {
+        wordCollected = true;
+        word.style.borderBottom = '2px solid rgba(201, 162, 39, 0.6)';
     }
     
-    drawKnot();
-    
-    // Show success message
-    const hint = document.querySelector('.track-folklore .easter-hint');
-    if (hint) {
-        hint.textContent = '✨ Invisible string found!';
-        hint.style.color = 'rgba(201, 162, 39, 0.8)';
+    if (AppState.eggsFound.has('metamorphosis')) {
+        morphCollected = true;
+        svg.classList.remove('hidden');
+        svg.classList.add('visible');
+        creature.innerHTML = `
+            <circle cx="100" cy="100" r="15" fill="none" stroke="currentColor" stroke-width="1.5"/>
+            <circle cx="100" cy="80" r="8" fill="none" stroke="currentColor" stroke-width="1"/>
+            <circle cx="120" cy="100" r="8" fill="none" stroke="currentColor" stroke-width="1"/>
+            <circle cx="100" cy="120" r="8" fill="none" stroke="currentColor" stroke-width="1"/>
+            <circle cx="80" cy="100" r="8" fill="none" stroke="currentColor" stroke-width="1"/>
+        `;
+        svg.style.color = 'rgba(255, 182, 193, 0.7)';
     }
 }
 
-// Track 3: Reputation - Word hover and snake transformation
-function initReputationInteractions() {
-    const triggerWord = document.querySelector('[data-egg="projections"]');
-    const snakeSvg = document.getElementById('snakeSvg');
-    const flowerSvg = document.getElementById('flowerSvg');
+// TRACK 4: Midnights - Find lavender stars and time pattern
+function initMidnightsSky() {
+    const container = document.getElementById('skyCanvas');
+    const timeKeeper = document.getElementById('timeKeeper');
+    const display = timeKeeper.querySelector('.time-display');
     
-    if (triggerWord && snakeSvg) {
-        // Click the word to collect
-        triggerWord.addEventListener('click', () => {
-            if (collectEgg('projections', triggerWord)) {
-                triggerWord.style.borderColor = 'rgba(201, 162, 39, 0.8)';
-                triggerWord.style.background = 'rgba(201, 162, 39, 0.1)';
-            }
-        });
-        
-        // Hover to reveal snake
-        triggerWord.addEventListener('mouseenter', () => {
-            snakeSvg.style.opacity = '1';
-        });
-        
-        triggerWord.addEventListener('mouseleave', () => {
-            if (!AppState.eggsFound.has('snake')) {
-                snakeSvg.style.opacity = '0';
-            }
-        });
-        
-        // Click snake to transform to flower
-        snakeSvg.addEventListener('click', () => {
-            if (collectEgg('snake', snakeSvg)) {
-                setTimeout(() => {
-                    snakeSvg.style.display = 'none';
-                    flowerSvg.style.display = 'block';
-                    flowerSvg.style.opacity = '1';
-                    
-                    const hint = document.querySelector('.track-reputation .easter-hint');
-                    if (hint) {
-                        hint.textContent = '🌸 From reputation to bloom...';
-                        hint.style.color = 'rgba(255, 182, 193, 0.8)';
-                    }
-                }, 300);
-            }
-        });
-        
-        // Mark if already found
-        if (AppState.eggsFound.has('projections')) {
-            triggerWord.style.borderColor = 'rgba(201, 162, 39, 0.8)';
-            triggerWord.style.background = 'rgba(201, 162, 39, 0.1)';
-        }
-        
-        if (AppState.eggsFound.has('snake')) {
-            snakeSvg.style.display = 'none';
-            flowerSvg.style.display = 'block';
-            flowerSvg.style.opacity = '1';
-        }
-    }
-}
-
-// Track 4: Midnights - Lavender haze stars and 1:19 clock
-function initMidnightStars() {
-    const container = document.getElementById('midnightStars');
     if (!container) return;
     
-    const stars = [];
+    container.style.position = 'absolute';
+    container.style.inset = '0';
     
     // Create 19 stars
     for (let i = 0; i < 19; i++) {
         const star = document.createElement('div');
-        star.className = 'midnight-star';
+        star.style.position = 'absolute';
+        star.style.width = '3px';
+        star.style.height = '3px';
+        star.style.background = 'rgba(224, 232, 255, 0.6)';
+        star.style.borderRadius = '50%';
+        star.style.left = `${Math.random() * 90 + 5}%`;
+        star.style.top = `${Math.random() * 85 + 5}%`;
+        star.style.boxShadow = '0 0 6px rgba(224, 232, 255, 0.4)';
+        container.appendChild(star);
+    }
+    
+    // 4 special lavender stars
+    const lavenderPositions = [
+        { left: '25%', top: '35%', id: 'lavender_1' },
+        { left: '35%', top: '45%', id: 'lavender_2' },
+        { left: '65%', top: '40%', id: 'lavender_3' },
+        { left: '75%', top: '50%', id: 'lavender_4' }
+    ];
+    
+    lavenderPositions.forEach(({ left, top, id }) => {
+        const star = document.createElement('div');
+        star.style.position = 'absolute';
+        star.style.width = '6px';
+        star.style.height = '6px';
+        star.style.background = 'rgba(201, 162, 39, 0.7)';
+        star.style.borderRadius = '50%';
+        star.style.left = left;
+        star.style.top = top;
+        star.style.boxShadow = '0 0 15px rgba(201, 162, 39, 0.6)';
+        star.style.cursor = 'pointer';
+        star.style.transition = 'all 0.3s ease';
+        star.dataset.egg = id;
         
-        star.style.left = `${Math.random() * 85 + 7.5}%`;
-        star.style.top = `${Math.random() * 75 + 12.5}%`;
-        star.style.animationDelay = `${Math.random() * 4}s`;
+        star.addEventListener('click', () => {
+            if (collectEgg(id)) {
+                star.style.background = 'rgba(201, 162, 39, 1)';
+                star.style.boxShadow = '0 0 25px rgba(201, 162, 39, 0.9)';
+            }
+        });
+        
+        if (AppState.eggsFound.has(id)) {
+            star.style.background = 'rgba(201, 162, 39, 1)';
+            star.style.boxShadow = '0 0 25px rgba(201, 162, 39, 0.9)';
+        }
         
         container.appendChild(star);
-        stars.push(star);
-    }
+    });
     
-    // Make 4 stars special (lavender haze themed)
-    const specialIndices = [3, 7, 11, 15];
-    const eggIds = ['midnightStar1', 'midnightStar2', 'midnightStar3', 'midnightStar4'];
+    // Time pattern egg
+    let clickCount = 0;
+    display.textContent = '11:59';
     
-    specialIndices.forEach((index, i) => {
-        const star = stars[index];
-        star.classList.add('special');
-        star.dataset.egg = eggIds[i];
-        star.title = 'Lavender haze ✨';
+    timeKeeper.addEventListener('click', () => {
+        clickCount++;
         
-        star.addEventListener('click', (e) => {
-            e.stopPropagation();
-            if (collectEgg(eggIds[i], star)) {
-                star.classList.add('found');
+        if (clickCount === 1) display.textContent = '12:00';
+        else if (clickCount === 2) display.textContent = '12:19';
+        else if (clickCount === 3) {
+            display.textContent = '1:19';
+            if (collectEgg('time_pattern')) {
+                display.style.color = 'rgba(201, 162, 39, 1)';
+                display.style.borderColor = 'rgba(201, 162, 39, 0.6)';
             }
-        });
-        
-        // Mark if already found
-        if (AppState.eggsFound.has(eggIds[i])) {
-            star.classList.add('found');
         }
     });
     
-    // Clock easter egg (1:19 = January 19, possible reference)
-    const clock = document.querySelector('[data-egg="clock"]');
-    if (clock) {
-        clock.addEventListener('click', () => {
-            if (collectEgg('clock', clock)) {
-                clock.style.color = 'rgba(201, 162, 39, 1)';
-                clock.style.borderColor = 'rgba(201, 162, 39, 1)';
-                clock.style.background = 'rgba(201, 162, 39, 0.15)';
-                
-                const hint = document.querySelector('.track-midnights .easter-hint');
-                if (hint) {
-                    hint.textContent = '⏰ April 19 at 1:19 AM - a special time...';
-                    hint.style.color = 'rgba(201, 162, 39, 0.8)';
+    if (AppState.eggsFound.has('time_pattern')) {
+        display.textContent = '1:19';
+        display.style.color = 'rgba(201, 162, 39, 1)';
+        display.style.borderColor = 'rgba(201, 162, 39, 0.6)';
+    }
+}
+
+// TRACK 5: Emotional Core - Click "corner" word + arrange memories
+function initEmotionalCore() {
+    const highlight = document.querySelector('.subtle-highlight');
+    const memoryBox = document.getElementById('memoryBox');
+    const items = memoryBox.querySelectorAll('.memory-item');
+    
+    let wordFound = false;
+    let sequence = [];
+    
+    highlight.addEventListener('click', () => {
+        if (!wordFound && collectEgg('corner_word')) {
+            wordFound = true;
+            highlight.style.color = 'rgba(255, 182, 255, 0.9)';
+        }
+    });
+    
+    // Memory sequence puzzle: click 1, 3, 2 in order
+    items.forEach(item => {
+        item.addEventListener('click', () => {
+            const memory = parseInt(item.dataset.memory);
+            sequence.push(memory);
+            item.classList.add('active');
+            
+            setTimeout(() => item.classList.remove('active'), 300);
+            
+            if (sequence.length === 3) {
+                if (sequence[0] === 1 && sequence[1] === 3 && sequence[2] === 2) {
+                    if (collectEgg('memory_sequence')) {
+                        items.forEach(i => {
+                            i.style.borderColor = 'rgba(201, 162, 39, 0.6)';
+                            i.style.background = 'rgba(201, 162, 39, 0.1)';
+                        });
+                    }
                 }
+                sequence = [];
             }
         });
-        
-        if (AppState.eggsFound.has('clock')) {
-            clock.style.color = 'rgba(201, 162, 39, 1)';
-            clock.style.borderColor = 'rgba(201, 162, 39, 1)';
-            clock.style.background = 'rgba(201, 162, 39, 0.15)';
-        }
+    });
+    
+    if (AppState.eggsFound.has('corner_word')) {
+        wordFound = true;
+        highlight.style.color = 'rgba(255, 182, 255, 0.9)';
+    }
+    
+    if (AppState.eggsFound.has('memory_sequence')) {
+        items.forEach(i => {
+            i.style.borderColor = 'rgba(201, 162, 39, 0.6)';
+            i.style.background = 'rgba(201, 162, 39, 0.1)';
+        });
     }
 }
 
-// Track 5: Hidden corner egg
-function initTrackFiveSecret() {
-    const hiddenEgg = document.querySelector('[data-egg="corner"]');
-    if (hiddenEgg) {
-        hiddenEgg.addEventListener('click', () => {
-            if (collectEgg('corner', hiddenEgg)) {
-                hiddenEgg.style.background = 'rgba(201, 162, 39, 0.3)';
-                hiddenEgg.style.boxShadow = '0 0 20px rgba(201, 162, 39, 0.5)';
-                
-                const hint = document.querySelector('.track-five .easter-hint');
-                if (hint) {
-                    hint.textContent = '💫 You found the quiet corner...';
-                    hint.style.color = 'rgba(201, 162, 39, 0.8)';
+// TRACK 6: Artifacts - Hover then double-click
+function initArtifacts() {
+    const artifacts = document.querySelectorAll('.artifact');
+    
+    artifacts.forEach(artifact => {
+        const id = artifact.dataset.artifact;
+        let hoverTime = 0;
+        let hoverInterval;
+        let readyToClick = false;
+        
+        artifact.addEventListener('mouseenter', () => {
+            hoverInterval = setInterval(() => {
+                hoverTime += 100;
+                if (hoverTime >= 1500) {
+                    readyToClick = true;
+                    artifact.style.borderColor = 'rgba(255, 182, 255, 0.5)';
                 }
+            }, 100);
+        });
+        
+        artifact.addEventListener('mouseleave', () => {
+            clearInterval(hoverInterval);
+            if (!AppState.eggsFound.has(`artifact_${id}`)) {
+                hoverTime = 0;
+                readyToClick = false;
+                artifact.style.borderColor = 'rgba(255, 255, 255, 0.12)';
             }
         });
         
-        if (AppState.eggsFound.has('corner')) {
-            hiddenEgg.style.background = 'rgba(201, 162, 39, 0.3)';
-            hiddenEgg.style.boxShadow = '0 0 20px rgba(201, 162, 39, 0.5)';
-        }
-    }
-}
-
-// Vault treasures (Taylor's Versions references)
-function initVaultTreasures() {
-    const treasures = document.querySelectorAll('.treasure[data-egg]');
-    treasures.forEach(treasure => {
-        const eggId = treasure.dataset.egg;
-        
-        treasure.addEventListener('click', () => {
-            if (collectEgg(eggId, treasure)) {
-                treasure.classList.add('found');
+        artifact.addEventListener('dblclick', () => {
+            if (readyToClick && collectEgg(`artifact_${id}`)) {
+                artifact.classList.add('discovered');
             }
         });
         
-        // Mark if already found
-        if (AppState.eggsFound.has(eggId)) {
-            treasure.classList.add('found');
+        if (AppState.eggsFound.has(`artifact_${id}`)) {
+            artifact.classList.add('discovered');
         }
     });
 }
 
-// Mark already found eggs
-function markFoundEggs() {
-    document.querySelectorAll('[data-egg]').forEach(el => {
-        const eggId = el.dataset.egg;
-        if (AppState.eggsFound.has(eggId)) {
-            el.classList.add('found');
-        }
-    });
-}
-
-// Check vault unlock status
 export function checkVaultStatus() {
     const remaining = AppState.totalEggs - AppState.eggsFound.size;
-    const statusText = document.querySelector('.fragments-needed');
+    const fragmentsCount = document.getElementById('fragmentsCount');
     
-    if (statusText) {
+    if (fragmentsCount) {
         if (remaining === 0) {
-            statusText.textContent = 'All fragments collected! ✨';
-            statusText.style.color = 'rgba(201, 162, 39, 1)';
+            fragmentsCount.textContent = 'All fragments discovered.';
+            fragmentsCount.style.color = 'rgba(201, 162, 39, 0.9)';
         } else if (remaining === 1) {
-            statusText.textContent = '1 fragment remaining...';
+            fragmentsCount.textContent = '1 fragment remains.';
         } else {
-            statusText.textContent = `${remaining} fragments required.`;
+            fragmentsCount.textContent = `${remaining} fragments await discovery.`;
         }
     }
     
     if (AppState.eggsFound.size === AppState.totalEggs && !AppState.vaultUnlocked) {
-        setTimeout(() => {
-            unlockVault();
-        }, 800);
+        setTimeout(unlockVault, 1000);
     }
 }
 
-// Unlock vault with cinematic sequence
 function unlockVault() {
     AppState.vaultUnlocked = true;
     saveState();
     
-    const vaultLocked = document.getElementById('vaultLocked');
-    const vaultUnlocked = document.getElementById('vaultUnlocked');
+    const locked = document.getElementById('collectionLocked');
+    const unlocked = document.getElementById('collectionUnlocked');
     
-    if (!vaultLocked || !vaultUnlocked) return;
-    
-    // Fade out locked state
-    vaultLocked.style.transition = 'opacity 1.5s ease';
-    vaultLocked.style.opacity = '0';
-    
-    setTimeout(() => {
-        vaultLocked.style.display = 'none';
-        vaultUnlocked.style.display = 'block';
+    if (locked && unlocked) {
+        locked.style.transition = 'opacity 2s ease';
+        locked.style.opacity = '0';
         
-        console.log('%c ✨ THE VAULT HAS OPENED ✨ ', 
-            'background: linear-gradient(135deg, rgba(201, 162, 39, 0.3), rgba(255, 182, 255, 0.3)); color: rgba(201, 162, 39, 1); font-size: 14px; padding: 12px 20px; border-radius: 4px; font-weight: bold;');
-        
-        console.log('%c Long story short... I\'m still here. And I always will be. 💕 ', 
-            'color: rgba(255, 182, 255, 0.9); font-style: italic; font-size: 12px;');
-    }, 1500);
-    
-    // Setup final track button
-    const playBtn = document.getElementById('playFinalTrack');
-    if (playBtn) {
-        playBtn.addEventListener('click', revealFinalTrack);
-    }
-}
-
-// Reveal final track
-function revealFinalTrack() {
-    const finalTrack = document.getElementById('finalTrack');
-    if (finalTrack) {
-        finalTrack.style.display = 'flex';
-        finalTrack.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        
-        console.log('%c 🎵 Invisible String - Our Song 🎵 ', 
-            'background: rgba(11, 29, 58, 0.5); color: rgba(255, 255, 255, 0.9); padding: 8px 16px; border-radius: 3px;');
+        setTimeout(() => {
+            locked.style.display = 'none';
+            unlocked.style.display = 'block';
+            
+            document.getElementById('finalReveal').addEventListener('click', () => {
+                const final = document.getElementById('finalTrack');
+                if (final) {
+                    final.style.display = 'flex';
+                    final.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        }, 2000);
     }
 }

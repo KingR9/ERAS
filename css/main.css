@@ -1,10 +1,8 @@
 /* ============================================
-   PREMIUM CINEMATIC EXPERIENCE
-   Mobile-First, Mature Design
-   Enhanced Easter Egg Visibility
+   PREMIUM INTERACTIVE EXPERIENCE
+   Sophisticated, Subtle, Engaging
    ============================================ */
 
-/* Reset & Base */
 * {
     margin: 0;
     padding: 0;
@@ -24,6 +22,98 @@ body {
 }
 
 /* ============================================
+   PROGRESS TRACKER - Circular
+   ============================================ */
+
+.progress-tracker {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    z-index: 1000;
+}
+
+.progress-circle {
+    position: relative;
+    width: 50px;
+    height: 50px;
+}
+
+.progress-circle svg {
+    transform: rotate(-90deg);
+}
+
+.progress-bg {
+    fill: none;
+    stroke: rgba(255, 255, 255, 0.1);
+    stroke-width: 2;
+}
+
+.progress-fill {
+    fill: none;
+    stroke: rgba(255, 182, 255, 0.8);
+    stroke-width: 2;
+    stroke-linecap: round;
+    transition: stroke-dasharray 0.6s ease;
+}
+
+.progress-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 14px;
+    font-weight: 500;
+    color: rgba(255, 182, 255, 0.9);
+}
+
+/* ============================================
+   MUSIC CONTROL
+   ============================================ */
+
+.music-control {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+    width: 48px;
+    height: 48px;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 50%;
+    cursor: pointer;
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.music-control svg {
+    width: 24px;
+    height: 24px;
+    color: rgba(255, 255, 255, 0.6);
+    transition: color 0.3s ease;
+}
+
+.music-control:hover {
+    background: rgba(0, 0, 0, 0.5);
+    border-color: rgba(255, 255, 255, 0.3);
+    transform: scale(1.05);
+}
+
+.music-control.playing svg {
+    color: rgba(255, 182, 255, 0.9);
+}
+
+.music-control.muted .music-note {
+    opacity: 0.3;
+}
+
+.music-control.muted .music-mute {
+    display: block !important;
+}
+
+/* ============================================
    TRACK STRUCTURE
    ============================================ */
 
@@ -39,10 +129,8 @@ body {
     justify-content: center;
     padding: 0;
     overflow: hidden;
-    
-    /* Fade in on scroll */
     opacity: 0;
-    transform: translateY(40px);
+    transform: translateY(30px);
     transition: opacity 0.8s ease, transform 0.8s ease;
 }
 
@@ -51,31 +139,34 @@ body {
     transform: translateY(0);
 }
 
-/* Background Image System - REDUCED BLUR */
 .bg-image {
     position: absolute;
     inset: 0;
     background-size: cover;
     background-position: center;
-    filter: blur(12px) brightness(0.6);  /* Reduced from 28px */
+    filter: blur(10px) brightness(0.55);
     transform: scale(1.05);
     z-index: 0;
-    transition: transform 0.3s ease;
+    transition: transform 8s ease;
+}
+
+.track:hover .bg-image {
+    transform: scale(1.08);
 }
 
 .bg-overlay {
     position: absolute;
     inset: 0;
-    background: rgba(0, 0, 0, 0.25);  /* Lighter overlay */
+    background: rgba(0, 0, 0, 0.3);
     z-index: 1;
 }
 
 .track-content {
     position: relative;
     z-index: 10;
-    max-width: 600px;
+    max-width: 700px;
     width: 100%;
-    padding: 0 24px;
+    padding: 0 30px;
     text-align: center;
 }
 
@@ -85,208 +176,143 @@ body {
 
 .track-title {
     font-family: 'Italiana', serif;
-    font-size: clamp(1.8rem, 6vw, 3.5rem);
+    font-size: clamp(2rem, 6vw, 4rem);
     font-weight: 400;
     line-height: 1.3;
-    letter-spacing: 3px;
+    letter-spacing: 4px;
     color: #f5f5f5;
-    margin: 0;
-    text-shadow: 0 2px 20px rgba(0,0,0,0.5);
+    text-shadow: 0 3px 25px rgba(0,0,0,0.6);
+    margin-bottom: 3rem;
 }
 
 .track-subtitle {
     font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(1.5rem, 5vw, 2.5rem);
+    font-size: clamp(1.6rem, 5vw, 2.8rem);
     font-weight: 300;
-    line-height: 1.6;
+    line-height: 1.7;
     color: #f5f5f5;
-    margin: 0;
-    text-shadow: 0 2px 15px rgba(0,0,0,0.5);
+    text-shadow: 0 2px 20px rgba(0,0,0,0.6);
 }
 
 .core-text {
     font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(1.3rem, 4vw, 2rem);
+    font-size: clamp(1.4rem, 4vw, 2.2rem);
     font-weight: 300;
-    line-height: 1.8;
+    line-height: 1.9;
     color: #f5f5f5;
     letter-spacing: 0.5px;
-    text-shadow: 0 2px 15px rgba(0,0,0,0.5);
+    text-shadow: 0 2px 20px rgba(0,0,0,0.6);
 }
 
 /* ============================================
-   EASTER EGG COUNTER
+   HINT SYSTEM
    ============================================ */
 
-.egg-counter {
-    position: fixed;
-    top: 20px;
-    left: 20px;
-    z-index: 1000;
-    font-family: 'EB Garamond', serif;
-    font-size: 18px;
-    color: rgba(255, 255, 255, 0.5);
-    letter-spacing: 1px;
-    background: rgba(0, 0, 0, 0.3);
-    padding: 10px 16px;
-    border-radius: 20px;
-    backdrop-filter: blur(10px);
-}
-
-.counter-label {
-    opacity: 0.7;
-}
-
-.counter-value {
-    color: rgba(255, 182, 255, 0.9);
-    font-weight: 600;
-    font-size: 20px;
-}
-
-.counter-total {
-    opacity: 0.6;
-}
-
-/* Music Control */
-.music-control {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    z-index: 1000;
-}
-
-.music-toggle {
-    background: rgba(0, 0, 0, 0.3);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    color: rgba(255, 255, 255, 0.7);
-    width: 48px;
-    height: 48px;
+.hint-toggle {
+    position: absolute;
+    bottom: 30px;
+    right: 30px;
+    width: 40px;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.15);
     border-radius: 50%;
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 18px;
     cursor: pointer;
-    backdrop-filter: blur(10px);
     transition: all 0.3s ease;
-    font-size: 20px;
+    backdrop-filter: blur(10px);
+    z-index: 20;
 }
 
-.music-toggle:hover {
-    background: rgba(0, 0, 0, 0.5);
-    border-color: rgba(255, 255, 255, 0.4);
-    transform: scale(1.05);
+.hint-toggle:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.3);
+    color: rgba(255, 255, 255, 0.8);
+    transform: scale(1.1);
 }
 
-.music-toggle.playing {
-    color: rgba(255, 182, 255, 0.9);
-    border-color: rgba(255, 182, 255, 0.5);
+.hint-panel {
+    position: absolute;
+    bottom: 80px;
+    right: 30px;
+    max-width: 300px;
+    padding: 20px 25px;
+    background: rgba(0, 0, 0, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 8px;
+    backdrop-filter: blur(20px);
+    opacity: 0;
+    transform: translateY(10px);
+    pointer-events: none;
+    transition: all 0.4s ease;
+    z-index: 19;
 }
 
-/* Easter Egg Hints */
-.easter-hint {
-    margin-top: 2rem;
-    font-family: 'EB Garamond', serif;
-    font-size: 0.95rem;
-    color: rgba(255, 255, 255, 0.4);
+.hint-panel.active {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: all;
+}
+
+.hint-panel p {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1rem;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.8);
     font-style: italic;
-    letter-spacing: 0.5px;
 }
 
 /* ============================================
-   TRACK 1: LOVER
+   TRACK 1: LOVER - Constellation Pattern
    ============================================ */
-
-.track-lover .bg-image {
-    filter: blur(12px) brightness(0.7) saturate(1.2);
-}
 
 .track-lover .bg-overlay {
-    background: linear-gradient(180deg, rgba(255, 154, 213, 0.2) 0%, rgba(0, 0, 0, 0.3) 100%);
+    background: linear-gradient(180deg, rgba(255, 154, 213, 0.15) 0%, rgba(0, 0, 0, 0.35) 100%);
 }
 
-/* Star Field - MORE VISIBLE */
-#loverStars {
+.particles-canvas {
     position: absolute;
     inset: 0;
-    pointer-events: none;
+    z-index: 2;
 }
 
-.lover-star {
-    position: absolute;
-    width: 6px;  /* Increased from 2px */
-    height: 6px;
-    background: rgba(255, 255, 255, 0.8);
-    border-radius: 50%;
-    cursor: pointer;
-    pointer-events: all;
-    transition: all 0.3s ease;
-    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
-    animation: starTwinkle 3s ease-in-out infinite;
-}
-
-@keyframes starTwinkle {
-    0%, 100% { opacity: 0.8; transform: scale(1); }
-    50% { opacity: 1; transform: scale(1.2); }
-}
-
-.lover-star[data-egg] {
-    width: 8px;
-    height: 8px;
-    background: rgba(255, 182, 255, 0.9);
-    box-shadow: 0 0 15px rgba(255, 182, 255, 0.7);
-    animation: specialStarPulse 2s ease-in-out infinite;
-}
-
-@keyframes specialStarPulse {
-    0%, 100% { 
-        opacity: 0.9; 
-        transform: scale(1);
-        box-shadow: 0 0 15px rgba(255, 182, 255, 0.7);
-    }
-    50% { 
-        opacity: 1; 
-        transform: scale(1.4);
-        box-shadow: 0 0 25px rgba(255, 182, 255, 1);
-    }
-}
-
-.lover-star:hover {
-    background: rgba(255, 182, 255, 1);
-    box-shadow: 0 0 20px rgba(255, 182, 255, 0.9);
-    transform: scale(1.5);
-}
-
-.lover-star.found {
-    background: rgba(201, 162, 39, 1);
-    box-shadow: 0 0 20px rgba(201, 162, 39, 1);
-    animation: none;
+.constellation {
+    position: relative;
+    width: 100%;
+    height: 400px;
+    margin-top: 2rem;
 }
 
 /* ============================================
-   TRACK 2: FOLKLORE
+   TRACK 2: FOLKLORE - Thread Drawing
    ============================================ */
 
-.track-folklore .bg-image {
-    filter: blur(10px) brightness(0.5) grayscale(0.2);
-}
-
 .track-folklore .bg-overlay {
-    background: rgba(232, 228, 223, 0.1);
+    background: rgba(232, 228, 223, 0.08);
 }
 
 #threadCanvas {
     position: absolute;
     inset: 0;
-    pointer-events: none;
+    z-index: 2;
+}
+
+.forest-scene {
+    position: absolute;
+    bottom: 15%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+    height: 120px;
 }
 
 /* ============================================
-   TRACK 3: REPUTATION
+   TRACK 3: REPUTATION - Metamorphosis
    ============================================ */
 
-.track-reputation .bg-image {
-    filter: blur(12px) brightness(0.35);
-}
-
 .track-reputation .bg-overlay {
-    background: rgba(0, 0, 0, 0.5);
+    background: rgba(0, 0, 0, 0.55);
 }
 
 .newspaper-overlay {
@@ -297,331 +323,294 @@ body {
             0deg,
             transparent,
             transparent 2px,
-            rgba(255, 255, 255, 0.02) 2px,
-            rgba(255, 255, 255, 0.02) 4px
+            rgba(255, 255, 255, 0.015) 2px,
+            rgba(255, 255, 255, 0.015) 4px
         );
     z-index: 2;
-    opacity: 0.3;
-    pointer-events: none;
+    opacity: 0.4;
 }
 
-.trigger-word {
+.interactive-word {
     position: relative;
     cursor: pointer;
-    border-bottom: 2px solid rgba(255, 182, 255, 0.4);
+    padding: 0 6px;
     transition: all 0.3s ease;
-    padding: 0 4px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-.trigger-word:hover {
-    border-color: rgba(255, 182, 255, 0.8);
-    background: rgba(255, 182, 255, 0.1);
+.interactive-word:hover {
+    border-bottom-color: rgba(255, 182, 255, 0.5);
 }
 
-.snake-svg,
-.flower-svg {
+.metamorphosis-container {
     position: absolute;
-    width: 80px;  /* Increased size */
-    height: 80px;
-    top: 30%;
-    right: 15%;
-    color: rgba(255, 255, 255, 0.5);
+    top: 25%;
+    right: 10%;
+    width: 150px;
+    height: 150px;
+}
+
+.morph-svg {
+    width: 100%;
+    height: 100%;
+    color: rgba(255, 255, 255, 0.3);
+    transition: all 1s ease;
+}
+
+.morph-svg.hidden {
     opacity: 0;
-    transition: opacity 0.5s ease;
-    cursor: pointer;
-    filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.3));
+    transform: scale(0.8);
 }
 
-.snake-svg:hover {
-    color: rgba(255, 255, 255, 0.8);
-    transform: scale(1.1);
-}
-
-.trigger-word:hover ~ .snake-svg {
+.morph-svg.visible {
     opacity: 1;
-}
-
-.flower-svg {
-    color: rgba(255, 182, 193, 0.8);
-    filter: drop-shadow(0 0 15px rgba(255, 182, 193, 0.5));
+    transform: scale(1);
 }
 
 /* ============================================
-   TRACK 4: MIDNIGHTS
+   TRACK 4: MIDNIGHTS - Sky Canvas
    ============================================ */
-
-.track-midnights .bg-image {
-    filter: blur(12px) brightness(0.4);
-}
 
 .track-midnights .bg-overlay {
-    background: radial-gradient(circle at 50% 50%, rgba(11, 29, 58, 0.4) 0%, rgba(0, 0, 0, 0.5) 100%);
+    background: radial-gradient(circle at 50% 50%, rgba(11, 29, 58, 0.3) 0%, rgba(0, 0, 0, 0.55) 100%);
 }
 
-#midnightStars {
+.sky-canvas {
     position: absolute;
     inset: 0;
+    z-index: 2;
 }
 
-.midnight-star {
+.time-keeper {
     position: absolute;
-    width: 5px;  /* Increased from 3px */
-    height: 5px;
-    background: rgba(224, 232, 255, 0.7);
-    border-radius: 50%;
+    bottom: 20%;
+    right: 15%;
     cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 0 8px rgba(224, 232, 255, 0.4);
-    animation: starTwinkle 4s ease-in-out infinite;
 }
 
-.midnight-star.special {
-    width: 8px;
-    height: 8px;
-    background: rgba(201, 162, 39, 0.8);
-    box-shadow: 0 0 15px rgba(201, 162, 39, 0.6);
-    animation: lavenderPulse 2.5s ease-in-out infinite;
-}
-
-@keyframes lavenderPulse {
-    0%, 100% { 
-        opacity: 0.8; 
-        transform: scale(1);
-        box-shadow: 0 0 15px rgba(201, 162, 39, 0.6);
-    }
-    50% { 
-        opacity: 1; 
-        transform: scale(1.5);
-        box-shadow: 0 0 25px rgba(201, 162, 39, 1);
-    }
-}
-
-.midnight-star:hover {
-    transform: scale(1.8);
-    box-shadow: 0 0 15px currentColor;
-}
-
-.midnight-star.found {
-    background: rgba(201, 162, 39, 1);
-    box-shadow: 0 0 20px rgba(201, 162, 39, 1);
-    animation: none;
-}
-
-.clock-subtle {
-    position: absolute;
-    bottom: 15%;
-    right: 20%;
+.time-display {
     font-family: 'EB Garamond', serif;
-    font-size: 1.4rem;  /* Increased from 1rem */
-    color: rgba(201, 162, 39, 0.6);
+    font-size: 1.2rem;
     letter-spacing: 3px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    padding: 8px 16px;
-    border: 1px solid rgba(201, 162, 39, 0.3);
+    color: rgba(201, 162, 39, 0.4);
+    padding: 10px 20px;
+    border: 1px solid rgba(201, 162, 39, 0.2);
     border-radius: 4px;
     background: rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
 }
 
-.clock-subtle:hover {
-    color: rgba(201, 162, 39, 1);
-    border-color: rgba(201, 162, 39, 0.8);
-    box-shadow: 0 0 20px rgba(201, 162, 39, 0.4);
-    transform: scale(1.1);
+.time-keeper:hover .time-display {
+    color: rgba(201, 162, 39, 0.7);
+    border-color: rgba(201, 162, 39, 0.4);
 }
 
 /* ============================================
-   TRACK 5: EMOTIONAL CORE
+   TRACK 5: EMOTIONAL CORE - Memory Box
    ============================================ */
 
-.track-five {
-    background: #000;
-}
-
 .track-five .bg-image {
-    filter: blur(15px) brightness(0.3) grayscale(0.4);
+    filter: blur(12px) brightness(0.35);
 }
 
-.hidden-egg {
+.subtle-highlight {
+    position: relative;
+    cursor: help;
+    transition: all 0.3s ease;
+}
+
+.subtle-highlight:hover {
+    color: rgba(255, 182, 255, 0.9);
+}
+
+.memory-box {
     position: absolute;
     bottom: 10%;
     left: 5%;
-    width: 60px;  /* Increased from 40px */
-    height: 60px;
+    display: flex;
+    gap: 15px;
+}
+
+.memory-item {
+    width: 50px;
+    height: 50px;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
     cursor: pointer;
-    opacity: 0.05;  /* Slightly visible */
-    background: rgba(255, 255, 255, 0.05);
-    border-radius: 8px;
     transition: all 0.3s ease;
 }
 
-.hidden-egg:hover {
-    opacity: 0.3;
-    background: rgba(255, 255, 255, 0.15);
-    box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
-    transform: scale(1.1);
+.memory-item:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
 }
 
-.hidden-egg.found {
-    background: rgba(201, 162, 39, 0.3);
-    box-shadow: 0 0 20px rgba(201, 162, 39, 0.5);
-    opacity: 0.5;
+.memory-item.active {
+    background: rgba(255, 182, 255, 0.1);
+    border-color: rgba(255, 182, 255, 0.4);
+    box-shadow: 0 0 20px rgba(255, 182, 255, 0.2);
 }
 
 /* ============================================
-   TRACK 6: VAULT
+   TRACK 6: THE COLLECTION
    ============================================ */
 
-.track-vault .bg-image {
-    filter: blur(12px) brightness(0.4);
-}
-
-.vault-locked {
+.collection-locked {
     text-align: center;
 }
 
-.vault-door {
+.lock-mechanism {
     width: 120px;
     height: 120px;
-    margin: 0 auto 2rem;
-    color: rgba(255, 255, 255, 0.3);
-    display: block;
+    margin: 0 auto 2.5rem;
+    color: rgba(255, 255, 255, 0.2);
 }
 
-.vault-status {
+.collection-status {
     font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(1.2rem, 4vw, 1.8rem);
-    line-height: 1.8;
-    color: rgba(255, 255, 255, 0.8);
+    font-size: clamp(1.3rem, 4vw, 1.9rem);
+    line-height: 1.9;
+    color: rgba(255, 255, 255, 0.7);
     font-weight: 300;
 }
 
-.fragments-needed {
-    color: rgba(255, 182, 255, 0.7);
-    font-size: 1em;
-    font-weight: 400;
+.status-line {
+    display: block;
+    margin-bottom: 0.5rem;
 }
 
-.vault-treasures {
+.fragments-count {
+    display: block;
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 0.9em;
+}
+
+.artifact-display {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 30px;
-    margin-top: 3rem;
-    max-width: 500px;
+    gap: 40px;
+    margin-top: 3.5rem;
+    max-width: 450px;
     margin-left: auto;
     margin-right: auto;
 }
 
-.treasure {
+.artifact {
+    position: relative;
     aspect-ratio: 1;
-    border: 2px solid rgba(255, 255, 255, 0.25);
+    border: 1px solid rgba(255, 255, 255, 0.12);
     border-radius: 12px;
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 10px;
     cursor: pointer;
-    transition: all 0.3s ease;
-    color: rgba(255, 255, 255, 0.5);
+    transition: all 0.4s ease;
+    color: rgba(255, 255, 255, 0.3);
     background: rgba(0, 0, 0, 0.2);
 }
 
-.treasure:hover {
-    border-color: rgba(255, 182, 255, 0.6);
-    background: rgba(255, 182, 255, 0.05);
-    transform: translateY(-4px);
-    box-shadow: 0 5px 20px rgba(255, 182, 255, 0.2);
+.artifact-glow {
+    position: absolute;
+    inset: -2px;
+    border-radius: 12px;
+    opacity: 0;
+    transition: opacity 0.4s ease;
 }
 
-.treasure svg {
-    width: 50%;
-    height: 40%;
+.artifact:hover {
+    border-color: rgba(255, 182, 255, 0.4);
+    transform: translateY(-4px) scale(1.02);
 }
 
-.treasure-label {
-    font-family: 'EB Garamond', serif;
-    font-size: 0.9rem;
-    opacity: 0.7;
-    letter-spacing: 1px;
+.artifact:hover .artifact-glow {
+    opacity: 1;
+    box-shadow: 0 0 30px rgba(255, 182, 255, 0.3);
 }
 
-.treasure.found {
-    border-color: rgba(201, 162, 39, 0.8);
-    color: rgba(201, 162, 39, 1);
-    background: rgba(201, 162, 39, 0.1);
-    box-shadow: 0 0 25px rgba(201, 162, 39, 0.3);
+.artifact svg {
+    width: 60%;
+    height: 60%;
 }
 
-/* Vault Unlocked State */
-.vault-unlocked {
+.artifact.discovered {
+    border-color: rgba(201, 162, 39, 0.6);
+    color: rgba(201, 162, 39, 0.8);
+    background: rgba(201, 162, 39, 0.05);
+}
+
+.artifact.discovered .artifact-glow {
+    opacity: 1;
+    box-shadow: 0 0 25px rgba(201, 162, 39, 0.4);
+}
+
+/* Unlocked State */
+.collection-unlocked {
     text-align: center;
 }
 
-.gold-dust {
+.light-rays {
     position: absolute;
     inset: 0;
-    background: radial-gradient(circle at 50% 50%, rgba(201, 162, 39, 0.15) 0%, transparent 70%);
-    pointer-events: none;
-    animation: dustGlow 3s ease-in-out infinite;
+    background: radial-gradient(circle at 50% 50%, rgba(201, 162, 39, 0.12) 0%, transparent 70%);
+    animation: lightPulse 4s ease-in-out infinite;
 }
 
-@keyframes dustGlow {
-    0%, 100% { opacity: 0.4; }
+@keyframes lightPulse {
+    0%, 100% { opacity: 0.5; }
     50% { opacity: 0.8; }
 }
 
-.love-message {
-    max-width: 600px;
+.revelation {
+    max-width: 650px;
     margin: 0 auto;
 }
 
-.vault-reveal {
+.revelation-title {
     font-family: 'Italiana', serif;
-    font-size: clamp(1.8rem, 5vw, 2.8rem);
+    font-size: clamp(2rem, 5vw, 3rem);
     font-weight: 400;
-    line-height: 1.5;
+    line-height: 1.4;
     color: rgba(255, 255, 255, 0.95);
-    margin-bottom: 2rem;
+    margin-bottom: 2.5rem;
     letter-spacing: 2px;
 }
 
-.love-letter {
+.revelation-content p {
     font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(1.1rem, 3vw, 1.4rem);
+    font-size: clamp(1.15rem, 3vw, 1.5rem);
     font-weight: 300;
     line-height: 1.9;
     color: rgba(255, 255, 255, 0.85);
-    margin-bottom: 2.5rem;
-    letter-spacing: 0.5px;
+    margin-bottom: 2rem;
+    letter-spacing: 0.3px;
 }
 
-.signature {
-    display: block;
-    margin-top: 2rem;
+.revelation-signature {
     font-style: italic;
-    color: rgba(255, 182, 255, 0.9);
-    font-size: 1.1em;
+    color: rgba(255, 182, 255, 0.9) !important;
+    margin-top: 2.5rem !important;
 }
 
-.final-button {
+.final-reveal {
+    margin-top: 2.5rem;
     background: transparent;
-    border: 2px solid rgba(201, 162, 39, 0.5);
-    color: rgba(201, 162, 39, 1);
-    padding: 18px 50px;
+    border: 2px solid rgba(201, 162, 39, 0.4);
+    color: rgba(201, 162, 39, 0.9);
+    padding: 18px 55px;
     font-family: 'EB Garamond', serif;
-    font-size: 1.2rem;
+    font-size: 1.3rem;
     letter-spacing: 2px;
     cursor: pointer;
     transition: all 0.4s ease;
     border-radius: 4px;
-    margin-top: 1rem;
 }
 
-.final-button:hover {
-    border-color: rgba(201, 162, 39, 1);
-    background: rgba(201, 162, 39, 0.15);
-    box-shadow: 0 0 30px rgba(201, 162, 39, 0.3);
+.final-reveal:hover {
+    border-color: rgba(201, 162, 39, 0.8);
+    background: rgba(201, 162, 39, 0.12);
+    box-shadow: 0 0 35px rgba(201, 162, 39, 0.3);
     transform: scale(1.05);
 }
 
@@ -629,37 +618,28 @@ body {
    FINAL TRACK
    ============================================ */
 
-.track-final .track-content {
-    max-width: 500px;
-}
-
 .final-title {
     font-family: 'Italiana', serif;
-    font-size: clamp(2.2rem, 6vw, 3.5rem);
+    font-size: clamp(2.5rem, 6vw, 4rem);
     letter-spacing: 3px;
-    margin-bottom: 1rem;
+    margin-bottom: 1.5rem;
     color: rgba(255, 255, 255, 0.95);
 }
 
-.final-subtitle {
+.final-quote {
     font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(1.1rem, 3vw, 1.3rem);
+    font-size: clamp(1.15rem, 3vw, 1.4rem);
     font-weight: 300;
     line-height: 1.8;
     color: rgba(255, 255, 255, 0.7);
     font-style: italic;
-    margin-bottom: 2.5rem;
+    margin-bottom: 3rem;
 }
 
 .spotify-embed {
     width: 100%;
-    max-width: 400px;
+    max-width: 420px;
     margin: 0 auto;
-}
-
-.spotify-embed iframe {
-    width: 100%;
-    border-radius: 12px;
 }
 
 /* ============================================
@@ -668,13 +648,13 @@ body {
 
 footer {
     position: fixed;
-    bottom: 15px;
+    bottom: 18px;
     left: 50%;
     transform: translateX(-50%);
     z-index: 100;
     font-family: 'EB Garamond', serif;
     font-size: 0.85rem;
-    color: rgba(255, 255, 255, 0.3);
+    color: rgba(255, 255, 255, 0.25);
     letter-spacing: 1px;
 }
 
@@ -683,87 +663,63 @@ footer {
    ============================================ */
 
 @media (max-width: 768px) {
-    .egg-counter {
-        top: 15px;
-        left: 15px;
-        font-size: 16px;
-        padding: 8px 12px;
-    }
-    
-    .music-control {
-        top: 15px;
-        right: 15px;
-    }
-    
-    .music-toggle {
-        width: 44px;
-        height: 44px;
-    }
-    
     .track-content {
-        padding: 0 20px;
+        padding: 0 25px;
     }
     
-    .vault-treasures {
-        gap: 20px;
-        margin-top: 2rem;
+    .hint-toggle {
+        bottom: 20px;
+        right: 20px;
+        width: 36px;
+        height: 36px;
+        font-size: 16px;
     }
     
-    .clock-subtle {
-        bottom: 10%;
-        right: 10%;
-        font-size: 1.2rem;
+    .hint-panel {
+        bottom: 65px;
+        right: 20px;
+        max-width: calc(100vw - 60px);
     }
     
-    .snake-svg,
-    .flower-svg {
-        width: 70px;
-        height: 70px;
-        right: 10%;
+    .artifact-display {
+        gap: 25px;
+        max-width: 350px;
+    }
+    
+    .memory-box {
+        left: 50%;
+        transform: translateX(-50%);
+        bottom: 15%;
     }
 }
 
 @media (max-width: 480px) {
-    .track-content {
-        padding: 0 16px;
-    }
-    
-    .vault-treasures {
+    .artifact-display {
         grid-template-columns: 1fr;
-        max-width: 250px;
+        max-width: 200px;
     }
     
     .track-title {
         letter-spacing: 2px;
     }
-    
-    .lover-star[data-egg],
-    .midnight-star.special {
-        width: 10px;
-        height: 10px;
-    }
 }
 
 /* ============================================
-   SMOOTH INTERACTIONS
+   ANIMATIONS
    ============================================ */
 
-.egg {
-    transition: all 0.3s ease;
-}
-
-.egg.collecting {
-    opacity: 0;
-    transform: scale(0.5);
-}
-
-.egg.found {
-    opacity: 0.7;
-}
-
-/* Parallax effect (subtle) */
-@media (prefers-reduced-motion: no-preference) {
-    .track:hover .bg-image {
-        transform: scale(1.08);
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
     }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes shimmer {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 0.8; }
 }

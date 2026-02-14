@@ -1,13 +1,14 @@
-// Main Application - Premium Version
-// Cinematic scroll experience with background music
-import { AppState, loadState, initConsoleMessages } from './state.js';
+// Main Application
+import { AppState, loadState } from './state.js';
 import { initEasterEggs, checkVaultStatus } from './eggs.js';
 
-// Music Management
+// Music Player
 const MusicPlayer = {
     currentAudio: null,
+    nextAudio: null,
     isPlaying: false,
-    volume: 0.3,
+    volume: 0.25,
+    transitioning: false,
     
     audioElements: {
         lover: null,
@@ -17,96 +18,42 @@ const MusicPlayer = {
     },
     
     init() {
-        // Get audio elements
         this.audioElements.lover = document.getElementById('loverAudio');
         this.audioElements.folklore = document.getElementById('folkloreAudio');
         this.audioElements.reputation = document.getElementById('reputationAudio');
         this.audioElements.midnights = document.getElementById('midnightsAudio');
         
-        // Set volume for all
         Object.values(this.audioElements).forEach(audio => {
             if (audio) {
                 audio.volume = this.volume;
+                audio.load();
             }
         });
         
-        // Setup music toggle button
-        const musicToggle = document.getElementById('musicToggle');
-        if (musicToggle) {
-            musicToggle.addEventListener('click', () => this.toggleMusic());
-        }
+        const control = document.getElementById('musicControl');
+        control.addEventListener('click', () => this.toggle());
     },
     
-    play(albumName) {
-        const audio = this.audioElements[albumName];
-        if (!audio || !this.isPlaying) return;
-        
-        // Fade out current audio
-        if (this.currentAudio && this.currentAudio !== audio) {
-            this.fadeOut(this.currentAudio, () => {
-                this.currentAudio.pause();
-                this.currentAudio.currentTime = 0;
-            });
-        }
-        
-        // Fade in new audio
-        this.currentAudio = audio;
-        audio.currentTime = 0;
-        this.fadeIn(audio);
-    },
-    
-    fadeIn(audio) {
-        audio.volume = 0;
-        audio.play().catch(e => console.log('Audio play prevented:', e));
-        
-        let vol = 0;
-        const fadeInterval = setInterval(() => {
-            if (vol < this.volume) {
-                vol += 0.05;
-                audio.volume = Math.min(vol, this.volume);
-            } else {
-                clearInterval(fadeInterval);
-            }
-        }, 100);
-    },
-    
-    fadeOut(audio, callback) {
-        let vol = audio.volume;
-        const fadeInterval = setInterval(() => {
-            if (vol > 0) {
-                vol -= 0.05;
-                audio.volume = Math.max(vol, 0);
-            } else {
-                clearInterval(fadeInterval);
-                if (callback) callback();
-            }
-        }, 100);
-    },
-    
-    toggleMusic() {
+    toggle() {
         this.isPlaying = !this.isPlaying;
-        const musicToggle = document.getElementById('musicToggle');
+        const control = document.getElementById('musicControl');
         
         if (this.isPlaying) {
-            musicToggle.classList.add('playing');
-            // Play current track's music
-            const currentTrack = this.getCurrentTrack();
-            if (currentTrack) {
-                this.play(currentTrack);
-            }
+            control.classList.add('playing');
+            const currentAlbum = this.getCurrentAlbum();
+            if (currentAlbum) this.play(currentAlbum);
         } else {
-            musicToggle.classList.remove('playing');
-            // Fade out and stop all music
+            control.classList.remove('playing');
             if (this.currentAudio) {
                 this.fadeOut(this.currentAudio, () => {
                     this.currentAudio.pause();
+                    this.currentAudio.currentTime = 0;
                 });
             }
         }
     },
     
-    getCurrentTrack() {
-        // Find which track is currently most visible
+    getCurrentAlbum() {
         const tracks = document.querySelectorAll('.track[data-album]');
         let mostVisible = null;
         let maxVisibility = 0;
@@ -114,6 +61,7 @@ const MusicPlayer = {
         tracks.forEach(track => {
             const rect = track.getBoundingClientRect();
             const visibility = Math.max(0, Math.min(window.innerHeight, rect.bottom) - Math.max(0, rect.top));
+            
             if (visibility > maxVisibility) {
                 maxVisibility = visibility;
                 mostVisible = track.dataset.album;
@@ -121,164 +69,195 @@ const MusicPlayer = {
         });
         
         return mostVisible;
+    },
+    
+    play(albumName) {
+        if (!this.isPlaying || this.transitioning) return;
+        
+        const newAudio = this.audioElements[albumName];
+        if (!newAudio || newAudio === this.currentAudio) return;
+        
+        this.transitioning = true;
+        this.nextAudio = newAudio;
+        
+        if (this.currentAudio) {
+            // Crossfade
+            this.fadeOut(this.currentAudio, () => {
+                this.currentAudio.pause();
+                this.currentAudio.currentTime = 0;
+                this.startNewTrack();
+            });
+        } else {
+            this.startNewTrack();
+        }
+    },
+    
+    startNewTrack() {
+        if (!this.nextAudio) {
+            this.transitioning = false;
+            return;
+        }
+        
+        this.currentAudio = this.nextAudio;
+        this.nextAudio = null;
+        
+        this.currentAudio.currentTime = 0;
+        this.currentAudio.volume = 0;
+        
+        this.currentAudio.play().then(() => {
+            this.fadeIn(this.currentAudio, () => {
+                this.transitioning = false;
+            });
+        }).catch(err => {
+            console.log('Playback prevented:', err);
+            this.transitioning = false;
+        });
+    },
+    
+    fadeIn(audio, callback) {
+        let vol = 0;
+        const fadeInterval = setInterval(() => {
+            if (vol < this.volume) {
+                vol += 0.02;
+                audio.volume = Math.min(vol, this.volume);
+            } else {
+                clearInterval(fadeInterval);
+                if (callback) callback();
+            }
+        }, 50);
+    },
+    
+    fadeOut(audio, callback) {
+        let vol = audio.volume;
+        const fadeInterval = setInterval(() => {
+            if (vol > 0) {
+                vol -= 0.02;
+                audio.volume = Math.max(vol, 0);
+            } else {
+                clearInterval(fadeInterval);
+                if (callback) callback();
+            }
+        }, 50);
     }
 };
 
-// Initialize when DOM is ready
+// Initialize
 document.addEventListener('DOMContentLoaded', () => {
-    // Console messages
-    initConsoleMessages();
-    
-    // Load saved state
     loadState();
-    
-    // Initialize systems
     initScrollObserver();
     initEasterEggs();
     checkVaultStatus();
     MusicPlayer.init();
+    initHintSystem();
     
-    // Check if vault already unlocked
     if (AppState.vaultUnlocked) {
         showUnlockedVault();
     }
     
-    // Smooth scroll polyfill
-    initSmoothScroll();
-    
-    // Track scroll for music changes
-    initMusicScrollListener();
+    // Track scroll for music
+    let scrollTimeout;
+    window.addEventListener('scroll', () => {
+        clearTimeout(scrollTimeout);
+        scrollTimeout = setTimeout(() => {
+            if (MusicPlayer.isPlaying && !MusicPlayer.transitioning) {
+                const currentAlbum = MusicPlayer.getCurrentAlbum();
+                if (currentAlbum) {
+                    MusicPlayer.play(currentAlbum);
+                }
+            }
+        }, 300);
+    });
 });
 
-// Scroll observer for fade-in effects
+// Scroll observer
 function initScrollObserver() {
-    const options = {
-        threshold: 0.3,
-        rootMargin: '0px 0px -100px 0px'
-    };
-    
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.classList.add('visible');
             }
         });
-    }, options);
-    
-    // Observe all tracks
-    document.querySelectorAll('.track').forEach(track => {
-        observer.observe(track);
+    }, {
+        threshold: 0.2,
+        rootMargin: '0px 0px -100px 0px'
     });
+    
+    document.querySelectorAll('.track').forEach(track => observer.observe(track));
 }
 
-// Music scroll listener
-function initMusicScrollListener() {
-    let scrollTimeout;
-    
-    window.addEventListener('scroll', () => {
-        clearTimeout(scrollTimeout);
-        scrollTimeout = setTimeout(() => {
-            if (MusicPlayer.isPlaying) {
-                const currentTrack = MusicPlayer.getCurrentTrack();
-                if (currentTrack && MusicPlayer.currentAudio !== MusicPlayer.audioElements[currentTrack]) {
-                    MusicPlayer.play(currentTrack);
-                }
-            }
-        }, 200);
-    });
-}
-
-// Show unlocked vault state (for returning users)
-function showUnlockedVault() {
-    const vaultLocked = document.getElementById('vaultLocked');
-    const vaultUnlocked = document.getElementById('vaultUnlocked');
-    
-    if (vaultLocked && vaultUnlocked) {
-        vaultLocked.style.display = 'none';
-        vaultUnlocked.style.display = 'block';
-        
-        // Setup final track button
-        const playBtn = document.getElementById('playFinalTrack');
-        if (playBtn) {
-            playBtn.addEventListener('click', () => {
-                const finalTrack = document.getElementById('finalTrack');
-                if (finalTrack) {
-                    finalTrack.style.display = 'flex';
-                    finalTrack.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                }
+// Hint system
+function initHintSystem() {
+    document.querySelectorAll('.hint-toggle').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const hintId = btn.dataset.hint;
+            const panel = document.getElementById(`hint-${hintId}`);
+            
+            // Close all other hints
+            document.querySelectorAll('.hint-panel').forEach(p => {
+                if (p !== panel) p.classList.remove('active');
             });
+            
+            panel.classList.toggle('active');
+        });
+    });
+    
+    // Close hints when clicking outside
+    document.addEventListener('click', (e) => {
+        if (!e.target.closest('.hint-toggle') && !e.target.closest('.hint-panel')) {
+            document.querySelectorAll('.hint-panel').forEach(p => p.classList.remove('active'));
         }
+    });
+}
+
+// Show unlocked vault
+function showUnlockedVault() {
+    const locked = document.getElementById('collectionLocked');
+    const unlocked = document.getElementById('collectionUnlocked');
+    
+    if (locked && unlocked) {
+        locked.style.display = 'none';
+        unlocked.style.display = 'block';
+        
+        document.getElementById('finalReveal')?.addEventListener('click', () => {
+            const final = document.getElementById('finalTrack');
+            if (final) {
+                final.style.display = 'flex';
+                final.scrollIntoView({ behavior: 'smooth' });
+            }
+        });
     }
 }
 
-// Smooth scroll for anchors
-function initSmoothScroll() {
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-            e.preventDefault();
-            const target = document.querySelector(this.getAttribute('href'));
-            if (target) {
-                target.scrollIntoView({ 
-                    behavior: 'smooth', 
-                    block: 'start' 
-                });
-            }
-        });
-    });
-}
-
-// Subtle parallax effect on scroll
-let lastScrollY = window.scrollY;
+// Parallax effect
 let ticking = false;
-
 window.addEventListener('scroll', () => {
-    lastScrollY = window.scrollY;
-    
     if (!ticking) {
         window.requestAnimationFrame(() => {
-            updateParallax();
+            document.querySelectorAll('.track').forEach(track => {
+                const rect = track.getBoundingClientRect();
+                const progress = (window.innerHeight - rect.top) / (window.innerHeight + rect.height);
+                
+                if (progress > 0 && progress < 1) {
+                    const bg = track.querySelector('.bg-image');
+                    if (bg) {
+                        const translateY = (progress - 0.5) * 15;
+                        bg.style.transform = `scale(1.05) translateY(${translateY}px)`;
+                    }
+                }
+            });
             ticking = false;
         });
         ticking = true;
     }
 });
 
-function updateParallax() {
-    const tracks = document.querySelectorAll('.track');
-    tracks.forEach(track => {
-        const rect = track.getBoundingClientRect();
-        const scrollProgress = (window.innerHeight - rect.top) / (window.innerHeight + rect.height);
-        
-        if (scrollProgress > 0 && scrollProgress < 1) {
-            const bgImage = track.querySelector('.bg-image');
-            if (bgImage) {
-                const translateY = (scrollProgress - 0.5) * 20;
-                bgImage.style.transform = `scale(1.05) translateY(${translateY}px)`;
-            }
-        }
-    });
-}
-
-// Keyboard shortcuts (subtle, for power users)
+// Reset
 document.addEventListener('keydown', (e) => {
-    // Ctrl/Cmd + R to reset (with confirmation)
     if ((e.ctrlKey || e.metaKey) && e.key === 'r') {
         e.preventDefault();
-        if (confirm('Reset all progress? This cannot be undone.')) {
-            localStorage.removeItem('erasPremiumState');
+        if (confirm('Reset all progress?')) {
+            localStorage.removeItem('erasState');
             location.reload();
         }
     }
-    
-    // M key to toggle music
-    if (e.key === 'm' || e.key === 'M') {
-        MusicPlayer.toggleMusic();
-    }
 });
-
-// Log final message
-console.log('%c For someone who understands theory and analysis. ✨ ', 
-    'color: rgba(201, 162, 39, 0.8); font-style: italic; font-size: 11px;');
-
-console.log('%c Hint: Press M to toggle music 🎵 ', 
-    'color: rgba(255, 182, 255, 0.6); font-size: 10px;');
