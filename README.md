@@ -1,4 +1,4 @@
-# 💕 Our Eras (Your Version) 💕
+# 💕 Our Eras 💕
 
 An interactive, Taylor Swift-themed experience built with pure frontend magic. Hunt for 13 Easter eggs across different "tracks" (sections) inspired by Taylor's eras, unlock the vault, and reveal the final track.
 
@@ -24,62 +24,6 @@ An interactive, Taylor Swift-themed experience built with pure frontend magic. H
 5. **Track 5** - Hidden in the text (Track 5 is the emotional core)
 6. **Track 6** - 4 vault treasures (red scarf, typewriter, clock, secret message)
 
-## 🚀 How to Deploy on GitHub Pages
-
-### Method 1: Using GitHub Web Interface (Easiest)
-
-1. **Create a new repository on GitHub**
-   - Go to https://github.com/new
-   - Name it: `our-eras-your-version` (or any name you like)
-   - Make it Public
-   - Click "Create repository"
-
-2. **Upload files**
-   - Click "uploading an existing file"
-   - Drag and drop ALL the files and folders from the project
-   - Commit the changes
-
-3. **Enable GitHub Pages**
-   - Go to Settings → Pages
-   - Under "Source", select "main" branch
-   - Click Save
-   - Wait 1-2 minutes
-
-4. **Access your site**
-   - URL will be: `https://YOUR-USERNAME.github.io/our-eras-your-version/`
-
-### Method 2: Using Git Command Line
-
-```bash
-# Navigate to the project folder
-cd /path/to/eras-your-version
-
-# Initialize git
-git init
-
-# Add all files
-git add .
-
-# Commit
-git commit -m "Initial commit: Our Eras (Your Version)"
-
-# Add remote (replace YOUR-USERNAME)
-git remote add origin https://github.com/YOUR-USERNAME/our-eras-your-version.git
-
-# Push to GitHub
-git branch -M main
-git push -u origin main
-```
-
-Then enable GitHub Pages in repository Settings → Pages.
-
-### Method 3: GitHub Desktop (For Non-Coders)
-
-1. Download GitHub Desktop: https://desktop.github.com/
-2. Create new repository
-3. Choose the `eras-your-version` folder
-4. Publish to GitHub
-5. Enable Pages in Settings
 
 ## 📁 File Structure
 
@@ -173,6 +117,6 @@ This is a personal project created as a gift. Taylor Swift and her work belong t
 
 ---
 
-**Version**: v1.3.13 (Your Version)
+**Version**: v1.3.13 
 
 Made with 💕 for Swifties everywhere.
