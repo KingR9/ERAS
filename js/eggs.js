@@ -299,9 +299,11 @@ function initReputationMorph() {
 function initMidnightsSky() {
     const container = document.getElementById('skyCanvas');
     const timeKeeper = document.getElementById('timeKeeper');
-    const display = timeKeeper.querySelector('.time-display');
     
-    if (!container) return;
+    if (!container || !timeKeeper) return;
+    
+    const display = timeKeeper.querySelector('.time-display');
+    if (!display) return;
     
     container.style.position = 'absolute';
     container.style.inset = '0';
@@ -357,15 +359,14 @@ function initMidnightsSky() {
         container.appendChild(star);
     });
     
-    // Time pattern egg
+    // Time pattern egg - FIXED
     let clickCount = 0;
     display.textContent = '11:59';
     
-    // Make entire time-keeper clickable
-    timeKeeper.style.cursor = 'pointer';
-    
     const handleTimeClick = (e) => {
+        e.preventDefault();
         e.stopPropagation();
+        
         clickCount++;
         
         if (clickCount === 1) {
@@ -379,16 +380,15 @@ function initMidnightsSky() {
                 display.style.borderColor = 'rgba(201, 162, 39, 0.6)';
                 display.style.background = 'rgba(201, 162, 39, 0.1)';
             }
-        } else {
-            // Reset after 3 clicks
-            clickCount = 0;
-            display.textContent = '11:59';
+            clickCount = 0; // Reset for next cycle
         }
     };
     
+    // Add click handlers to both elements
     timeKeeper.addEventListener('click', handleTimeClick);
     display.addEventListener('click', handleTimeClick);
     
+    // Restore state if already found
     if (AppState.eggsFound.has('time_pattern')) {
         display.textContent = '1:19';
         display.style.color = 'rgba(201, 162, 39, 1)';
@@ -528,13 +528,14 @@ function unlockVault() {
             locked.style.display = 'none';
             unlocked.style.display = 'block';
             
-            document.getElementById('finalReveal').addEventListener('click', () => {
+            // Auto-reveal final track after message is displayed
+            setTimeout(() => {
                 const final = document.getElementById('finalTrack');
                 if (final) {
                     final.style.display = 'flex';
                     final.scrollIntoView({ behavior: 'smooth' });
                 }
-            });
+            }, 4000); // 4 seconds to read the message
         }, 2000);
     }
 }

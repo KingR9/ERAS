@@ -218,13 +218,13 @@ function showUnlockedVault() {
         locked.style.display = 'none';
         unlocked.style.display = 'block';
         
-        document.getElementById('finalReveal')?.addEventListener('click', () => {
+        // Auto-show final track for returning users
+        setTimeout(() => {
             const final = document.getElementById('finalTrack');
             if (final) {
                 final.style.display = 'flex';
-                final.scrollIntoView({ behavior: 'smooth' });
             }
-        });
+        }, 1000);
     }
 }
 
