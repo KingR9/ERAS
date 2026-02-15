@@ -1,7 +1,5 @@
-/* ============================================
-   PREMIUM INTERACTIVE EXPERIENCE
-   Sophisticated, Subtle, Engaging
-   ============================================ */
+/* PREMIUM INTERACTIVE EXPERIENCE
+   Sophisticated, Subtle, Engaging*/
 
 * {
     margin: 0;
@@ -21,9 +19,7 @@ body {
     -webkit-font-smoothing: antialiased;
 }
 
-/* ============================================
-   PROGRESS TRACKER - Circular
-   ============================================ */
+/* PROGRESS TRACKER - Circular*/
 
 .progress-tracker {
     position: fixed;
@@ -66,9 +62,7 @@ body {
     color: rgba(255, 182, 255, 0.9);
 }
 
-/* ============================================
-   MUSIC CONTROL
-   ============================================ */
+/*MUSIC CONTROL*/
 
 .music-control {
     position: fixed;
@@ -113,9 +107,7 @@ body {
     display: block !important;
 }
 
-/* ============================================
-   TRACK STRUCTURE
-   ============================================ */
+/*TRACK STRUCTURE*/
 
 .experience {
     position: relative;
@@ -170,9 +162,7 @@ body {
     text-align: center;
 }
 
-/* ============================================
-   TYPOGRAPHY
-   ============================================ */
+/*TYPOGRAPHY*/
 
 .track-title {
     font-family: 'Italiana', serif;
@@ -204,9 +194,7 @@ body {
     text-shadow: 0 2px 20px rgba(0,0,0,0.6);
 }
 
-/* ============================================
-   HINT SYSTEM
-   ============================================ */
+/*HINT SYSTEM*/
 
 .hint-toggle {
     position: absolute;
@@ -263,9 +251,7 @@ body {
     font-style: italic;
 }
 
-/* ============================================
-   TRACK 1: LOVER - Constellation Pattern
-   ============================================ */
+/*TRACK 1: LOVER - Constellation Pattern*/
 
 .track-lover .bg-overlay {
     background: linear-gradient(180deg, rgba(255, 154, 213, 0.15) 0%, rgba(0, 0, 0, 0.35) 100%);
@@ -284,9 +270,7 @@ body {
     margin-top: 2rem;
 }
 
-/* ============================================
-   TRACK 2: FOLKLORE - Thread Drawing
-   ============================================ */
+/*TRACK 2: FOLKLORE - Thread Drawing*/
 
 .track-folklore .bg-overlay {
     background: rgba(232, 228, 223, 0.08);
@@ -307,9 +291,7 @@ body {
     height: 120px;
 }
 
-/* ============================================
-   TRACK 3: REPUTATION - Metamorphosis
-   ============================================ */
+/*TRACK 3: REPUTATION - Metamorphosis*/
 
 .track-reputation .bg-overlay {
     background: rgba(0, 0, 0, 0.55);
@@ -367,9 +349,7 @@ body {
     transform: scale(1);
 }
 
-/* ============================================
-   TRACK 4: MIDNIGHTS - Sky Canvas
-   ============================================ */
+/*TRACK 4: MIDNIGHTS - Sky Canvas*/
 
 .track-midnights .bg-overlay {
     background: radial-gradient(circle at 50% 50%, rgba(11, 29, 58, 0.3) 0%, rgba(0, 0, 0, 0.55) 100%);
@@ -405,9 +385,7 @@ body {
     border-color: rgba(201, 162, 39, 0.4);
 }
 
-/* ============================================
-   TRACK 5: EMOTIONAL CORE - Memory Box
-   ============================================ */
+/*TRACK 5: EMOTIONAL CORE - Memory Box*/
 
 .track-five .bg-image {
     filter: blur(12px) brightness(0.35);
@@ -453,9 +431,7 @@ body {
     box-shadow: 0 0 20px rgba(255, 182, 255, 0.2);
 }
 
-/* ============================================
-   TRACK 6: THE COLLECTION
-   ============================================ */
+/*TRACK 6: THE COLLECTION*/
 
 .collection-locked {
     text-align: center;
@@ -593,9 +569,7 @@ body {
     margin-top: 2.5rem !important;
 }
 
-/* ============================================
-   FINAL TRACK
-   ============================================ */
+/*FINAL TRACK*/
 
 .final-title {
     font-family: 'Italiana', serif;
@@ -632,9 +606,7 @@ body {
     background-color: rgba(255, 255, 255, 0.1);
 }
 
-/* ============================================
-   FOOTER
-   ============================================ */
+/*FOOTER*/
 
 footer {
     position: fixed;
@@ -648,9 +620,7 @@ footer {
     letter-spacing: 1px;
 }
 
-/* ============================================
-   MOBILE OPTIMIZATION
-   ============================================ */
+/*MOBILE OPTIMIZATION*/
 
 @media (max-width: 768px) {
     .track-content {
@@ -694,9 +664,7 @@ footer {
     }
 }
 
-/* ============================================
-   ANIMATIONS
-   ============================================ */
+/*ANIMATIONS*/
 
 @keyframes fadeIn {
     from {
